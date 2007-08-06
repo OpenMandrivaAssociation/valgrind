@@ -1,6 +1,6 @@
 %define	name	valgrind
 %define	version	3.2.3
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 %define _requires_exceptions GLIBC_PRIVATE
 
 Name: 		%{name}
@@ -11,6 +11,7 @@ License: 	GPL
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 Source1: 	valgrind
+Patch0:		http://sources.gentoo.org/viewcvs.py/*checkout*/gentoo-x86/dev-util/valgrind/files/valgrind-3.2.3-glibc-2.6.patch
 URL: 		http://valgrind.kde.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
 BuildRequires:	glibc-static-devel
@@ -33,6 +34,8 @@ intercepted. As a result, Valgrind can detect problems such as:
 
 %prep
 %setup -q 
+%patch0 -p1 -b .glibc26
+autoreconf # needed by patch0
 
 %build
 %configure2_5x
