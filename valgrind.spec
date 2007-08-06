@@ -62,6 +62,6 @@ rm -rf %{buildroot}
 %{_includedir}/valgrind/
 %{_libdir}/pkgconfig/valgrind.pc
 %{_datadir}/doc/%{name}-%{version}
-%{_mandir}/man1/valgrind.1.bz2
+%{_mandir}/man1/valgrind.1*
 
 
