@@ -16,7 +16,6 @@ URL: 		http://valgrind.kde.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
 BuildRequires:	glibc-static-devel
 Obsoletes:	valgrind-plugins
-BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
 %description
 When a program is run under Valgrind's supervision, all reads and
