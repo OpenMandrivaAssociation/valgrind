@@ -1,19 +1,16 @@
-%define	name	valgrind
-%define	version	3.3.0
-%define	release	%mkrel 1
 %define _requires_exceptions GLIBC_PRIVATE
 
-Name: 		%{name}
-Version:	%{version}
-Release:	%{release}
-Summary: 	an open-source memory debugger for x86-linux
+Name: 		valgrind
+Version:	3.3.0
+Release:	%mkrel 2
+Summary: 	Memory debugger
 License: 	GPL
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
-Source1: 	valgrind
 URL: 		http://valgrind.kde.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
 BuildRequires:	glibc-static-devel
+BuildRequires:	gdb
 Obsoletes:	valgrind-plugins
 BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
@@ -38,26 +35,21 @@ intercepted. As a result, Valgrind can detect problems such as:
 %configure2_5x
 %make
 
-
-
 %install
 rm -rf %{buildroot}
-# Don't strip librairy ask by developer
+# Don't strip library (requested by developer)
 export DONT_STRIP=1
 %makeinstall
-# move documentation where rpm expect it to be
-mv %{buildroot}%{_datadir}/doc/%{name} %{buildroot}%{_datadir}/doc/%{name}-%{version}
-install -m 644 README* ACKNOWLEDGEMENTS  %{buildroot}%{_datadir}/doc/%{name}-%{version}
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%doc README* ACKNOWLEDGEMENTS
 %{_bindir}/*
-%{_libdir}/%name
+%{_libdir}/%{name}
 %{_includedir}/valgrind/
-%{_libdir}/pkgconfig/valgrind.pc
-%{_datadir}/doc/%{name}-%{version}
-%{_mandir}/man1/valgrind.1*
+%{_libdir}/pkgconfig/%{name}.pc
+%{_mandir}/man1/%{name}.1*
 
