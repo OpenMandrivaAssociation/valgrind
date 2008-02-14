@@ -4,7 +4,7 @@ Name: 		valgrind
 Version:	3.3.0
 Release:	%mkrel 2
 Summary: 	Memory debugger
-License: 	GPL
+License: 	GPLv2+
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 URL: 		http://valgrind.kde.org/
