@@ -2,7 +2,7 @@
 
 Name: 		valgrind
 Version:	3.3.0
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -11,6 +11,7 @@ URL: 		http://valgrind.kde.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
+Suggests:	gdb
 Obsoletes:	valgrind-plugins
 BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
