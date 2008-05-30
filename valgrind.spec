@@ -5,7 +5,7 @@
 
 Name: 		valgrind
 Version:	3.3.0
-Release:	%mkrel 4
+Release:	%mkrel 5
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -71,6 +71,8 @@ echo -n > default.supp
 for file in xfree-4.supp glibc-2.34567-NPTL-helgrind.supp glibc-2.8.supp; do
     cat $file >> default.supp
 done
+
+perl -p -i -e 's@/usr/X11[^/]+@/usr@g' default.supp
 
 %make
 
