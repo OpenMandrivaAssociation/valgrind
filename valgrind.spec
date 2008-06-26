@@ -3,9 +3,12 @@
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 
+# disable debug package, it can prevent valgrind for working properly
+%define debug_package   %{nil}
+
 Name: 		valgrind
-Version:	3.3.0
-Release:	%mkrel 5
+Version:	3.3.1
+Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -18,13 +21,6 @@ Patch1:		valgrind-3.3.0-pkg-config.patch
 Patch2:		valgrind-3.3.0-openat.patch
 # (fc) 3.3.0-4mdv suppress pthread_barrier_wait in helgrind (Fedora)
 Patch3:		valgrind-3.3.0-helgrind-p_b_w.patch
-# (fc) 3.3.0-4mdv add suppression for glibc 2.7 (Fedora)
-Patch4:		valgrind-3.3.0-glibc27-dlhack.patch
-# (fc) 3.3.0-4mdv add support for glibc 2.8 (Fedora)
-Patch5:		valgrind-3.3.0-glibc28.patch
-# (fc) 3.3.0-4mdv add more syscalls (Fedora)
-Patch6:		valgrind-3.3.0-syscalls1.patch
-Patch7:		valgrind-3.3.0-syscalls2.patch
 # (fc) 3.3.0-4mdv fix malloc_free_fill test with glibc >= 2.7
 Patch8:		valgrind-3.3.0-fixtest.patch
 
@@ -57,10 +53,6 @@ intercepted. As a result, Valgrind can detect problems such as:
 %patch1 -p1 -b .pkg-config
 %patch2 -p1 -b .openat
 %patch3 -p1 -b .helgrind-p_b_w
-%patch4 -p1 -b .glibc27-dlhack
-%patch5 -p1 -b .glibc28
-%patch6 -p1 -b .syscalls1
-%patch7 -p1 -b .syscalls2
 %patch8 -p1 -b .fixtest
 
 %build
@@ -78,7 +70,7 @@ perl -p -i -e 's@/usr/X11[^/]+@/usr@g' default.supp
 
 %install
 rm -rf %{buildroot}
-# Don't strip library (requested by developer)
+# Don't strip (prevent valgrind from working properly, as explained in README_PACKAGERS)
 export DONT_STRIP=1
 %makeinstall
 
