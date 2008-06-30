@@ -8,7 +8,7 @@
 
 Name: 		valgrind
 Version:	3.3.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -21,7 +21,7 @@ Patch1:		valgrind-3.3.0-pkg-config.patch
 Patch2:		valgrind-3.3.0-openat.patch
 # (fc) 3.3.0-4mdv suppress pthread_barrier_wait in helgrind (Fedora)
 Patch3:		valgrind-3.3.0-helgrind-p_b_w.patch
-# (fc) 3.3.0-4mdv fix malloc_free_fill test with glibc >= 2.7
+# (fc) 3.3.0-4mdv fix malloc_free_fill test with glibc >= 2.7 (SVN, bug #162819)
 Patch8:		valgrind-3.3.0-fixtest.patch
 
 
@@ -54,6 +54,9 @@ intercepted. As a result, Valgrind can detect problems such as:
 %patch2 -p1 -b .openat
 %patch3 -p1 -b .helgrind-p_b_w
 %patch8 -p1 -b .fixtest
+
+#needed by patch8
+chmod +x memcheck/tests/filter_malloc_free_fill
 
 %build
 %configure2_5x
