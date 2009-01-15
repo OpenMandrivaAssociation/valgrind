@@ -7,23 +7,18 @@
 %define debug_package   %{nil}
 
 Name: 		valgrind
-Version:	3.3.1
-Release:	%mkrel 2
+Version:	3.4.0
+Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 # (fc) 3.3.0-4mdv add cachegrind improvement (Fedora)
-Patch0:		valgrind-3.3.0-cachegrind-improvements.patch
+Patch0:		valgrind-3.4.0-cachegrind-improvements.patch
 # (fc) 3.3.0-4mdv fix pkg-config file (RH bug #213149) (Fedora)
-Patch1:		valgrind-3.3.0-pkg-config.patch
+Patch1:		valgrind-3.4.0-pkg-config.patch
 # (fc) 3.3.0-4mdv fix openat handling (RH bug #208097) (Fedora)
 Patch2:		valgrind-3.3.0-openat.patch
-# (fc) 3.3.0-4mdv suppress pthread_barrier_wait in helgrind (Fedora)
-Patch3:		valgrind-3.3.0-helgrind-p_b_w.patch
-# (fc) 3.3.0-4mdv fix malloc_free_fill test with glibc >= 2.7 (SVN, bug #162819)
-Patch8:		valgrind-3.3.0-fixtest.patch
-
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -52,18 +47,16 @@ intercepted. As a result, Valgrind can detect problems such as:
 %patch0 -p1 -b .cachegrind-improvements
 %patch1 -p1 -b .pkg-config
 %patch2 -p1 -b .openat
-%patch3 -p1 -b .helgrind-p_b_w
-%patch8 -p1 -b .fixtest
 
-#needed by patch8
-chmod +x memcheck/tests/filter_malloc_free_fill
+#needed by patch1 
+autoreconf
 
 %build
 %configure2_5x
 
 # Force a specific set of default suppressions
 echo -n > default.supp
-for file in xfree-4.supp glibc-2.34567-NPTL-helgrind.supp glibc-2.8.supp; do
+for file in xfree-4.supp glibc-2.34567-NPTL-helgrind.supp glibc-2.X.supp glibc-2.X-drd.supp; do
     cat $file >> default.supp
 done
 
