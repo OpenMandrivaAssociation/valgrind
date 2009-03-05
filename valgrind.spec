@@ -7,16 +7,14 @@
 %define debug_package   %{nil}
 
 Name: 		valgrind
-Version:	3.4.0
+Version:	3.4.1
 Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 # (fc) 3.3.0-4mdv add cachegrind improvement (Fedora)
-Patch0:		valgrind-3.4.0-cachegrind-improvements.patch
-# (fc) 3.3.0-4mdv fix pkg-config file (RH bug #213149) (Fedora)
-Patch1:		valgrind-3.4.0-pkg-config.patch
+Patch0:		valgrind-3.4.1-cachegrind-improvements.patch
 # (fc) 3.3.0-4mdv fix openat handling (RH bug #208097) (Fedora)
 Patch2:		valgrind-3.3.0-openat.patch
 
@@ -45,22 +43,10 @@ intercepted. As a result, Valgrind can detect problems such as:
 %prep
 %setup -q 
 %patch0 -p1 -b .cachegrind-improvements
-%patch1 -p1 -b .pkg-config
 %patch2 -p1 -b .openat
-
-#needed by patch1 
-autoreconf
 
 %build
 %configure2_5x
-
-# Force a specific set of default suppressions
-echo -n > default.supp
-for file in xfree-4.supp glibc-2.34567-NPTL-helgrind.supp glibc-2.X.supp glibc-2.X-drd.supp; do
-    cat $file >> default.supp
-done
-
-perl -p -i -e 's@/usr/X11[^/]+@/usr@g' default.supp
 
 %make
 
@@ -69,6 +55,9 @@ rm -rf %{buildroot}
 # Don't strip (prevent valgrind from working properly, as explained in README_PACKAGERS)
 export DONT_STRIP=1
 %makeinstall
+
+#don't package generated files
+rm -f $RPM_BUILD_ROOT%{_libdir}/valgrind/*.supp.in
 
 %check
 # Ensure there are no unexpected file descriptors open,
