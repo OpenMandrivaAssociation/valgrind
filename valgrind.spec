@@ -46,7 +46,7 @@ intercepted. As a result, Valgrind can detect problems such as:
 %setup -q 
 %patch0 -p1 -b .cachegrind-improvements~
 %patch2 -p1 -b .openat~
-%patch3 -p1 -b .x86_64-ldso-strlen~
+#%patch3 -p1 -b .x86_64-ldso-strlen~
 
 %build
 %configure2_5x
