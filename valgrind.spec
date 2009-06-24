@@ -19,6 +19,9 @@ Patch0:		valgrind-3.4.1-cachegrind-improvements.patch
 Patch2:		valgrind-3.3.0-openat.patch
 # (proyvind): 3.4.1-3 redirect x86_64 ld.so strlen early (RH bug #495645) (Fedora)
 Patch3:		valgrind-3.4.1-x86_64-ldso-strlen.patch
+# (proyvind): 3.4.1-3 add wildcards after GLIBC_VERSION to match any library
+# micro versions as well (Fedora)
+Patch4:		valgrind-3.4.1-glibc-2.10.1.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -46,7 +49,8 @@ intercepted. As a result, Valgrind can detect problems such as:
 %setup -q 
 %patch0 -p1 -b .cachegrind-improvements~
 %patch2 -p1 -b .openat~
-#%patch3 -p1 -b .x86_64-ldso-strlen~
+#%%patch3 -p1 -b .x86_64-ldso-strlen~
+%patch4 -p1 -b .glibc-2.10.1~
 
 %build
 %configure2_5x
