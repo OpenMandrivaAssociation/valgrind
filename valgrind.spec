@@ -8,7 +8,7 @@
 
 Name: 		valgrind
 Version:	3.4.1
-Release:	%mkrel 2
+Release:	%mkrel 3
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -17,6 +17,8 @@ Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 Patch0:		valgrind-3.4.1-cachegrind-improvements.patch
 # (fc) 3.3.0-4mdv fix openat handling (RH bug #208097) (Fedora)
 Patch2:		valgrind-3.3.0-openat.patch
+# (proyvind): 3.4.1-3 redirect x86_64 ld.so strlen early (RH bug #495645) (Fedora)
+Patch3:		valgrind-3.4.1-x86_64-ldso-strlen.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -42,8 +44,9 @@ intercepted. As a result, Valgrind can detect problems such as:
 
 %prep
 %setup -q 
-%patch0 -p1 -b .cachegrind-improvements
-%patch2 -p1 -b .openat
+%patch0 -p1 -b .cachegrind-improvements~
+%patch2 -p1 -b .openat~
+%patch3 -p1 -b .x86_64-ldso-strlen~
 
 %build
 %configure2_5x
