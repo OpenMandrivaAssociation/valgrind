@@ -7,8 +7,8 @@
 %define debug_package   %{nil}
 
 Name: 		valgrind
-Version:	3.4.1
-Release:	%mkrel 3
+Version:	3.5.0
+Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -49,7 +49,7 @@ intercepted. As a result, Valgrind can detect problems such as:
 %setup -q 
 %patch0 -p1 -b .cachegrind-improvements~
 %patch2 -p1 -b .openat~
-%patch3 -p1 -b .x86_64-ldso-strlen~
+#%patch3 -p1 -b .x86_64-ldso-strlen~
 %patch4 -p1 -b .glibc-2.10.1~
 
 %build
@@ -106,10 +106,10 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README* ACKNOWLEDGEMENTS
+%doc README* AUTHORS FAQ.txt
 %{_bindir}/*
 %{_libdir}/%{name}
 %{_includedir}/valgrind/
 %{_libdir}/pkgconfig/%{name}.pc
-%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/*.1*
 
