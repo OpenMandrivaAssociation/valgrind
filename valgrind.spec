@@ -8,7 +8,7 @@
 
 Name: 		valgrind
 Version:	3.5.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -22,6 +22,10 @@ Patch3:		valgrind-3.4.1-x86_64-ldso-strlen.patch
 # (proyvind): 3.4.1-3 add wildcards after GLIBC_VERSION to match any library
 # micro versions as well (Fedora)
 Patch4:		valgrind-3.4.1-glibc-2.10.1.patch
+# http://cvs.fedoraproject.org/viewvc/F-12/valgrind/valgrind-3.5.0-ifunc.patch
+Patch5:		valgrind-3.5.0-glibc-2.11.patch
+# http://cvs.fedoraproject.org/viewvc/F-12/valgrind/valgrind-3.5.0-glibc-2.11.patch
+Patch6:		valgrind-3.5.0-ifunc.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -51,6 +55,8 @@ intercepted. As a result, Valgrind can detect problems such as:
 %patch2 -p1 -b .openat~
 #%patch3 -p1 -b .x86_64-ldso-strlen~
 %patch4 -p1 -b .glibc-2.10.1~
+%patch5 -p1 -b .glibc-2.11
+%patch6 -p1 -b .ifunc
 
 %build
 %configure2_5x
