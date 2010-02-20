@@ -31,6 +31,8 @@ URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
+# (proyvind): build with support for OpenMP, boost & qt4 threads
+BuildRequires:	libgomp-devel boost-devel qt4-devel
 Suggests:	gdb
 Obsoletes:	valgrind-plugins
 BuildRoot: 	%{_tmppath}/%{name}-%{version}
@@ -59,6 +61,9 @@ intercepted. As a result, Valgrind can detect problems such as:
 %patch6 -p1 -b .ifunc
 
 %build
+# required for qt4 thread support as configure script shipped with package were
+# generated with either outdated or missing pkg-config
+autoreconf
 %configure2_5x
 
 %make
