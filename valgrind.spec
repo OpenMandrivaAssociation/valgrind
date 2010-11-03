@@ -7,8 +7,8 @@
 %define debug_package   %{nil}
 
 Name: 		valgrind
-Version:	3.5.0
-Release:	%mkrel 2
+Version:	3.6.0
+Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -16,16 +16,13 @@ Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 # (fc) 3.3.0-4mdv add cachegrind improvement (Fedora)
 Patch0:		valgrind-3.4.1-cachegrind-improvements.patch
 # (fc) 3.3.0-4mdv fix openat handling (RH bug #208097) (Fedora)
-Patch2:		valgrind-3.3.0-openat.patch
-# (proyvind): 3.4.1-3 redirect x86_64 ld.so strlen early (RH bug #495645) (Fedora)
-Patch3:		valgrind-3.4.1-x86_64-ldso-strlen.patch
+Patch1:		valgrind-3.3.0-openat.patch
 # (proyvind): 3.4.1-3 add wildcards after GLIBC_VERSION to match any library
 # micro versions as well (Fedora)
-Patch4:		valgrind-3.4.1-glibc-2.10.1.patch
-# http://cvs.fedoraproject.org/viewvc/F-12/valgrind/valgrind-3.5.0-ifunc.patch
-Patch5:		valgrind-3.5.0-glibc-2.11.patch
+Patch2:		valgrind-3.4.1-glibc-2.10.1.patch
 # http://cvs.fedoraproject.org/viewvc/F-12/valgrind/valgrind-3.5.0-glibc-2.11.patch
-Patch6:		valgrind-3.5.0-ifunc.patch
+# sample of an "emergency" hack to build on an usupported (newer) glibc...
+Patch3:		valgrind-3.5.0-glibc-2.11.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -54,11 +51,9 @@ intercepted. As a result, Valgrind can detect problems such as:
 %prep
 %setup -q 
 %patch0 -p1 -b .cachegrind-improvements~
-%patch2 -p1 -b .openat~
-#%patch3 -p1 -b .x86_64-ldso-strlen~
-%patch4 -p1 -b .glibc-2.10.1~
-%patch5 -p1 -b .glibc-2.11
-%patch6 -p1 -b .ifunc
+%patch1 -p1 -b .openat~
+%patch2 -p1 -b .glibc-2.10.1~
+#%patch3 -p1 -b .glibc-2.11
 
 %build
 # required for qt4 thread support as configure script shipped with package were
