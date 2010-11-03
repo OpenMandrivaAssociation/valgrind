@@ -67,6 +67,10 @@ autoreconf
 rm -rf %{buildroot}
 # Don't strip (prevent valgrind from working properly, as explained in README_PACKAGERS)
 export DONT_STRIP=1
+
+# FIXME exporting DONT_STRIP=1 is causing some weird behavior with debug_package
+# and causing it to not set DISABLE_DEBUG=1
+export DISABLE_DEBUG=1
 %makeinstall
 
 #don't package generated files
