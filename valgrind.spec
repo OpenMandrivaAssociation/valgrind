@@ -7,7 +7,7 @@
 %define debug_package   %{nil}
 
 Name: 		valgrind
-Version:	3.6.0
+Version:	3.6.1
 Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
