@@ -47,6 +47,12 @@ intercepted. As a result, Valgrind can detect problems such as:
     * Passing of uninitialised and/or unaddressible memory to system calls
     * Mismatched use of malloc/new/new [] vs free/delete/delete []
 
+%package	devel
+Summary:	%{summary}
+Group:		%{group}
+
+%description	devel
+Development files required to develop software using valgrind.
 
 %prep
 %setup -q 
@@ -65,12 +71,7 @@ autoreconf
 
 %install
 rm -rf %{buildroot}
-# Don't strip (prevent valgrind from working properly, as explained in README_PACKAGERS)
-export DONT_STRIP=1
-
-# FIXME exporting DONT_STRIP=1 is causing some weird behavior with debug_package
-# and causing it to not set DISABLE_DEBUG=1
-export DISABLE_DEBUG=1
+export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind/*.so
 %makeinstall
 
 #don't package generated files
@@ -119,7 +120,9 @@ rm -rf %{buildroot}
 %doc README* AUTHORS FAQ.txt
 %{_bindir}/*
 %{_libdir}/%{name}
-%{_includedir}/valgrind/
-%{_libdir}/pkgconfig/%{name}.pc
 %{_mandir}/man1/*.1*
 
+%files devel
+%dir %{_includedir}/valgrind
+%{_includedir}/valgrind/*
+%{_libdir}/pkgconfig/%{name}.pc
