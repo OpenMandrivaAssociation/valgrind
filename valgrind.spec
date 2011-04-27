@@ -1,14 +1,13 @@
-%define _requires_exceptions GLIBC_PRIVATE
+%define	_filter_GLIBC_PRIVATE	1
 
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 
 # disable debug package, it can prevent valgrind for working properly
-%define debug_package   %{nil}
 
 Name: 		valgrind
 Version:	3.6.1
-Release:	%mkrel 2
+Release:	3
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -32,7 +31,6 @@ BuildRequires:	gdb
 BuildRequires:	libgomp-devel boost-devel qt4-devel
 Suggests:	gdb
 Obsoletes:	valgrind-plugins
-BuildRoot: 	%{_tmppath}/%{name}-%{version}
 
 %description
 When a program is run under Valgrind's supervision, all reads and
@@ -61,16 +59,15 @@ Development files required to develop software using valgrind.
 %patch2 -p1 -b .glibc-2.10.1~
 #%patch3 -p1 -b .glibc-2.11
 
-%build
 # required for qt4 thread support as configure script shipped with package were
 # generated with either outdated or missing pkg-config
 autoreconf
-%configure2_5x
 
+%build
+%configure2_5x
 %make
 
 %install
-rm -rf %{buildroot}
 export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind/*.so
 %makeinstall
 
@@ -110,13 +107,7 @@ echo ===============TESTING===================
 ./close_fds make regtest || :
 echo ===============END TESTING===============
 
-
-
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %doc README* AUTHORS FAQ.txt
 %{_bindir}/*
 %{_libdir}/%{name}
