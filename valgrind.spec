@@ -7,21 +7,33 @@
 
 Name: 		valgrind
 Version:	3.6.1
-Release:	4
+Release:	5
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
-# (fc) 3.3.0-4mdv add cachegrind improvement (Fedora)
-Patch0:		valgrind-3.4.1-cachegrind-improvements.patch
-# (fc) 3.3.0-4mdv fix openat handling (RH bug #208097) (Fedora)
-Patch1:		valgrind-3.3.0-openat.patch
-# (proyvind): 3.4.1-3 add wildcards after GLIBC_VERSION to match any library
-# micro versions as well (Fedora)
-Patch2:		valgrind-3.4.1-glibc-2.10.1.patch
-# http://cvs.fedoraproject.org/viewvc/F-12/valgrind/valgrind-3.5.0-glibc-2.11.patch
-# sample of an "emergency" hack to build on an usupported (newer) glibc...
-Patch3:		valgrind-3.5.0-glibc-2.11.patch
+Patch1:		valgrind-3.6.1-cachegrind-improvements.patch
+Patch2:		valgrind-3.6.1-openat.patch
+Patch3:		valgrind-3.6.1-glibc-2.10.1.patch
+Patch4:		valgrind-3.6.1-helgrind-race-supp.patch
+Patch5:		valgrind-3.6.1-stat_h.patch
+Patch6:		valgrind-3.6.1-config_h.patch
+Patch7:		valgrind-3.6.1-capget.patch
+Patch8:		valgrind-3.6.1-glibc-2.14.patch
+Patch9:		valgrind-3.6.1-s390x-1.patch
+Patch10:	valgrind-3.6.1-s390x-2.patch
+Patch11:	valgrind-3.6.1-s390x-3.patch
+Patch12:	valgrind-3.6.1-s390x-4.patch
+Patch13:	valgrind-3.6.1-xlc_dbl_u32-test.patch
+Patch14:	valgrind-3.6.1-helgrind-tests.patch
+Patch15:	valgrind-3.6.1-ppc64-pwrite64.patch
+Patch16:	valgrind-3.6.1-pie.patch
+Patch17:	valgrind-3.6.1-gen_insn_test.patch
+Patch18:	valgrind-3.6.1-x86-ldso-strlen.patch
+Patch19:	valgrind-3.6.1-ppc64-build.patch
+Patch20:	valgrind-3.6.1-tests-_GNU_SOURCE.patch
+Patch21:	valgrind-3.6.1-x86_64-memcpy-memmove.patch
+Patch22:	valgrind-3.6.1-plt-unwind-info.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -54,10 +66,7 @@ Development files required to develop software using valgrind.
 
 %prep
 %setup -q 
-%patch0 -p1 -b .cachegrind-improvements~
-%patch1 -p1 -b .openat~
-%patch2 -p1 -b .glibc-2.10.1~
-#%patch3 -p1 -b .glibc-2.11
+%apply_patches
 
 # required for qt4 thread support as configure script shipped with package were
 # generated with either outdated or missing pkg-config
