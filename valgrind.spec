@@ -3,37 +3,24 @@
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 
-# disable debug package, it can prevent valgrind for working properly
-
 Name: 		valgrind
-Version:	3.6.1
-Release:	6
+Version:	3.7.0
+Release:	1
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
+# a855fda56edf05614f099dca316d1775
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
-Patch1:		valgrind-3.6.1-cachegrind-improvements.patch
-Patch2:		valgrind-3.6.1-openat.patch
-Patch3:		valgrind-3.6.1-glibc-2.10.1.patch
-Patch4:		valgrind-3.6.1-helgrind-race-supp.patch
-Patch5:		valgrind-3.6.1-stat_h.patch
-Patch6:		valgrind-3.6.1-config_h.patch
-Patch7:		valgrind-3.6.1-capget.patch
-Patch8:		valgrind-3.6.1-glibc-2.14.patch
-Patch9:		valgrind-3.6.1-s390x-1.patch
-Patch10:	valgrind-3.6.1-s390x-2.patch
-Patch11:	valgrind-3.6.1-s390x-3.patch
-Patch12:	valgrind-3.6.1-s390x-4.patch
-Patch13:	valgrind-3.6.1-xlc_dbl_u32-test.patch
-Patch14:	valgrind-3.6.1-helgrind-tests.patch
-Patch15:	valgrind-3.6.1-ppc64-pwrite64.patch
-Patch16:	valgrind-3.6.1-pie.patch
-Patch17:	valgrind-3.6.1-gen_insn_test.patch
-Patch18:	valgrind-3.6.1-x86-ldso-strlen.patch
-Patch19:	valgrind-3.6.1-ppc64-build.patch
-Patch20:	valgrind-3.6.1-tests-_GNU_SOURCE.patch
-Patch21:	valgrind-3.6.1-x86_64-memcpy-memmove.patch
-Patch22:	valgrind-3.6.1-plt-unwind-info.patch
+Patch1:		valgrind-3.7.0-cachegrind-improvements.patch
+Patch2:		valgrind-3.7.0-openat.patch
+Patch3:		valgrind-3.7.0-helgrind-race-supp.patch
+Patch4:		valgrind-3.7.0-stat_h.patch
+Patch5:		valgrind-3.7.0-capget.patch
+Patch6:		valgrind-3.7.0-pie.patch
+Patch7:		valgrind-3.7.0-gcc-version.patch
+# Do not tell ebx is clobbered in exit syscall
+# to avoid gcc error, as done in valgrind 3.6.1
+Patch8:		valgrind-3.7.0-pic-clobber.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -73,7 +60,7 @@ Development files required to develop software using valgrind.
 autoreconf
 
 %build
-%configure2_5x
+%configure
 %make
 
 %install
