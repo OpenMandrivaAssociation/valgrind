@@ -68,7 +68,7 @@ export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind/*.so
 %makeinstall
 
 #don't package generated files
-rm -f $RPM_BUILD_ROOT%{_libdir}/valgrind/*.supp.in
+rm -f %{buildroot}%{_libdir}/valgrind/*.supp.in
 
 %check
 # Ensure there are no unexpected file descriptors open,
