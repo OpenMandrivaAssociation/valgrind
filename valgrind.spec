@@ -100,7 +100,7 @@ done
 # by multiple threads on i586, and also in i586, some tests fail due
 # to not being able to modify running testcase variables in the
 # gdb server interface, and then looping forever e.g. sleepers test.
-make CFLAGS="-O0 -g3" check || :
+make CFLAGS="-O0 -g3" CXXFLAGS="-O0 -g3" check || :
 # some tests are known to fail,
 # just check no more tests are failing than Fedora ;)
 echo ===============TESTING===================
