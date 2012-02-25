@@ -21,6 +21,7 @@ Patch7:		valgrind-3.7.0-gcc-version.patch
 # Do not tell ebx is clobbered in exit syscall
 # to avoid gcc error, as done in valgrind 3.6.1
 Patch8:		valgrind-3.7.0-pic-clobber.patch
+Patch9:		valgrind-3.7.0-glibc-2.15.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
@@ -55,9 +56,13 @@ Development files required to develop software using valgrind.
 %setup -q 
 %apply_patches
 
+# not just a simple case of s|pkglib_|pkgdata_|g; in Makefile.am files
+# with newer autoconf
+%if 0
 # required for qt4 thread support as configure script shipped with package were
 # generated with either outdated or missing pkg-config
 autoreconf
+%endif
 
 %build
 %configure
