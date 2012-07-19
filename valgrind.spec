@@ -3,9 +3,9 @@
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 
-Name: 		valgrind
+Name:		valgrind
 Version:	3.7.0
-Release:	2
+Release:	3
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -22,6 +22,17 @@ Patch7:		valgrind-3.7.0-gcc-version.patch
 # to avoid gcc error, as done in valgrind 3.6.1
 Patch8:		valgrind-3.7.0-pic-clobber.patch
 Patch9:		valgrind-3.7.0-glibc-2.15.patch
+Patch10:	valgrind-3.7.0-tests.patch
+Patch11:	valgrind-3.7.0-f-sgetown-ex.patch
+Patch12:	valgrind-3.7.0-scsi-ioctls.patch
+Patch13:	valgrind-3.7.0-enable-armv5.patch
+Patch14:	valgrind-3.7.0-ldso-supp.patch
+Patch15:	valgrind-3.7.0-unspecified-type.patch
+Patch16:	valgrind-3.7.0-rvalue-ref.patch
+Patch17:	valgrind-3.7.0-debug-leak1.patch
+Patch18:	valgrind-3.7.0-debug-leak2.patch
+Patch19:	valgrind-3.7.0-addToXA.patch
+Patch20:	valgrind-3.7.0-debug-types.patch
 
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc
