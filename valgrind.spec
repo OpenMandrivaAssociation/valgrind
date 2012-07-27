@@ -35,7 +35,7 @@ Patch19:	valgrind-3.7.0-addToXA.patch
 Patch20:	valgrind-3.7.0-debug-types.patch
 
 URL: 		http://valgrind.org/
-ExclusiveArch:	%{ix86} x86_64 ppc
+ExclusiveArch:	%{ix86} x86_64 ppc %{arm}
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
 # (proyvind): build with support for OpenMP, boost & qt4 threads
