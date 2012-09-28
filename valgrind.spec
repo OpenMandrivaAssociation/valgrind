@@ -10,7 +10,7 @@
 %bcond_without	qt4
 
 Name: 		valgrind
-Version:	3.8.0
+Version:	3.8.1
 Release:	%mkrel 1
 Summary: 	Memory debugger
 License: 	GPLv2+
@@ -29,7 +29,6 @@ Patch9:		valgrind-3.8.0-enable-armv5.patch
 Patch10:	valgrind-3.8.0-ldso-supp.patch
 Patch11:	valgrind-3.8.0-x86-backtrace.patch
 Patch12:	valgrind-3.8.0-find-buildid.patch
-Patch13:	valgrind-3.8.0-abbrev-parsing.patch
 
 # https://bugs.kde.org/show_bug.cgi?id=305513
 Patch102:	valgrind-fix-segv.diff
