@@ -1,12 +1,9 @@
-%define _requires_exceptions GLIBC_PRIVATE
-
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 
 # disable debug package, it can prevent valgrind for working properly
 %define debug_package   %{nil}
 
-# (blino) FIXME: reenable qt4 as soon as availble in cauldron
 %bcond_without	qt4
 
 Name: 		valgrind
