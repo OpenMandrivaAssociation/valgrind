@@ -124,6 +124,20 @@ Patch28: valgrind-3.8.1-s390_tsearch_supp.patch
 # KDE#307106 - unhandled instruction bytes: f0 0f c0 02 (lock xadd)
 Patch29: valgrind-3.8.1-xaddb.patch
 
+# KDE#309427 - SSE optimized stpncpy trigger uninitialised value
+Patch30: valgrind-3.8.1-stpncpy.patch
+
+# KDE#308573 - Internal Valgrind error on 64-bit instruction executed
+#              in 32-bit mode
+Patch31: valgrind-3.8.1-ppc-32-mode-64-bit-instr.patch
+
+# KDE#309425 - Provide a --sigill-diagnostics flag to suppress
+#              illegal instruction reporting
+Patch32: valgrind-3.8.1-sigill_diag.patch
+
+# Allow building against glibc-2.17. Upstream commit svn 13228.
+Patch33: valgrind-3.8.1-glibc-2.17.patch
+
 # https://bugs.kde.org/show_bug.cgi?id=305513
 Patch102:	valgrind-fix-segv.diff
 
@@ -219,6 +233,10 @@ touch ./none/tests/amd64/bmi.stderr.exp
 %endif
 
 %patch29 -p1
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
 
 %patch102 -p1
 
