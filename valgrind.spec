@@ -142,7 +142,7 @@ Patch33: valgrind-3.8.1-glibc-2.17.patch
 Patch102:	valgrind-fix-segv.diff
 
 URL: 		http://valgrind.org/
-ExclusiveArch:	%{ix86} x86_64 ppc
+ExclusiveArch:	%{ix86} x86_64 ppc %arm
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
 # (proyvind): build with support for OpenMP, boost & qt4 threads
@@ -240,6 +240,11 @@ touch ./none/tests/amd64/bmi.stderr.exp
 
 %patch102 -p1
 
+%ifarch %{arm}
+rm -f drd/tests/annotate_trace_memory_xml.vgtest
+rm -f drd/tests/annotate_trace_memory.vgtest
+%endif
+
 %build
 
 # Convert the library paths with /lib or /lib64 in the suppressions to those
@@ -302,7 +307,7 @@ int main (int argc, char *const argv[])
   exit (1);
 }
 EOF
-gcc $RPM_OPT_FLAGS -o close_fds close_fds.c
+%{__cc} $RPM_OPT_FLAGS -o close_fds close_fds.c
 
 for i in `find . -type f \( -name *-amd64-linux -o -name *-x86-linux -o -name *-ppc*-linux \)`; do
   case "`file $i`" in
