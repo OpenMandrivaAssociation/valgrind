@@ -1,0 +1,43 @@
+commit 2f456f6524ad5edb7af6bdff8d2766738f3c76cc
+Author: mjw <mjw@a5019735-40e9-0310-863c-91ae7b9d1cf9>
+Date:   Fri Jul 5 09:50:26 2013 +0000
+
+    Bug 321969. Support [lf]setxattr on ppc32 and ppc64 linux kernel.
+    
+    git-svn-id: svn://svn.valgrind.org/valgrind/trunk@13449 a5019735-40e9-0310-863c-91ae7b9d1cf9
+
+diff --git a/coregrind/m_syswrap/syswrap-ppc32-linux.c b/coregrind/m_syswrap/syswrap-ppc32-linux.c
+index c866fae..cf714cb 100644
+--- a/coregrind/m_syswrap/syswrap-ppc32-linux.c
++++ b/coregrind/m_syswrap/syswrap-ppc32-linux.c
+@@ -1130,9 +1130,9 @@ static SyscallTableEntry syscall_table[] = {
+    GENXY(__NR_mincore,           sys_mincore),           // 206
+    LINX_(__NR_gettid,            sys_gettid),            // 207
+ //..    LINX_(__NR_tkill,             sys_tkill),             // 208 */Linux
+-//..    LINX_(__NR_setxattr,          sys_setxattr),          // 209
+-//..    LINX_(__NR_lsetxattr,         sys_lsetxattr),         // 210
+-//..    LINX_(__NR_fsetxattr,         sys_fsetxattr),         // 211
++   LINX_(__NR_setxattr,          sys_setxattr),          // 209
++   LINX_(__NR_lsetxattr,         sys_lsetxattr),         // 210
++   LINX_(__NR_fsetxattr,         sys_fsetxattr),         // 211
+    LINXY(__NR_getxattr,          sys_getxattr),          // 212
+    LINXY(__NR_lgetxattr,         sys_lgetxattr),         // 213
+    LINXY(__NR_fgetxattr,         sys_fgetxattr),         // 214
+diff --git a/coregrind/m_syswrap/syswrap-ppc64-linux.c b/coregrind/m_syswrap/syswrap-ppc64-linux.c
+index d3a5b0f..7310b2a 100644
+--- a/coregrind/m_syswrap/syswrap-ppc64-linux.c
++++ b/coregrind/m_syswrap/syswrap-ppc64-linux.c
+@@ -927,10 +927,10 @@ static SyscallTableEntry syscall_table[] = {
+ // _____(__NR_mincore,           sys_mincore),            // 206
+    LINX_(__NR_gettid,            sys_gettid),             // 207
+ // _____(__NR_tkill,             sys_tkill),              // 208
+-// _____(__NR_setxattr,          sys_setxattr),           // 209
++   LINX_(__NR_setxattr,          sys_setxattr),           // 209
+ 
+-// _____(__NR_lsetxattr,         sys_lsetxattr),          // 210
+-// _____(__NR_fsetxattr,         sys_fsetxattr),          // 211
++   LINX_(__NR_lsetxattr,         sys_lsetxattr),          // 210
++   LINX_(__NR_fsetxattr,         sys_fsetxattr),          // 211
+    LINXY(__NR_getxattr,          sys_getxattr),           // 212
+    LINXY(__NR_lgetxattr,         sys_lgetxattr),          // 213
+    LINXY(__NR_fgetxattr,         sys_fgetxattr),          // 214
