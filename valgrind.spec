@@ -8,7 +8,7 @@
 
 Name: 		valgrind
 Version:	3.8.1
-Release:	4
+Release:	5
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
