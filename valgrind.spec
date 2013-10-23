@@ -8,7 +8,7 @@
 
 Name: 		valgrind
 Version:	3.8.1
-Release:	7
+Release:	8
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -135,8 +135,8 @@ Patch31:	valgrind-3.8.1-ppc-32-mode-64-bit-instr.patch
 #              illegal instruction reporting
 Patch32:	valgrind-3.8.1-sigill_diag.patch
 
-# Allow building against glibc-2.17. Upstream commit svn 13228.
-Patch33:	valgrind-3.8.1-glibc-2.17.patch
+# Allow building against glibc-2.17. Upstream commit svn 13228 + mga additions for 2.18
+Patch33:	valgrind-3.8.1-glibc-2.17-18.patch
 
 # KDE#315441 - sendmsg syscall should ignore unset msghdr msg_flags
 Patch34:	valgrind-3.8.1-sendmsg-flags.patch
