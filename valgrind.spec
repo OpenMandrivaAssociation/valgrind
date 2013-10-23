@@ -175,6 +175,9 @@ Patch44:	valgrind-3.8.1-ptrace-thread-area.patch
 # KDE#320116 Support Linux kernel AF_BLUETOOTH for bind()
 Patch45:	valgrind-3.8.1-af-bluetooth.patch
 
+# Don't include linux/ptrace.h. Upstream commits r13471 and r13482. 
+Patch46: valgrind-3.8.1-ptrace-include-configure.patch
+
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc %arm
 BuildRequires:	glibc-static-devel
@@ -283,6 +286,7 @@ touch ./memcheck/tests/linux/getregset.stderr.exp
 %patch43 -p1
 %patch44 -p1
 %patch45 -p1
+%patch46 -p1
 
 # These tests go into an endless loop on ARM
 # There is a __sync_add_and_fetch in the testcase.
