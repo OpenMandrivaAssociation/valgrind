@@ -152,6 +152,9 @@ rm -f drd/tests/annotate_trace_memory_xml.vgtest
 rm -f drd/tests/annotate_trace_memory.vgtest
 %endif
 
+# rebuild unconditionally because we patch configure.in
+autoreconf
+
 %build
 
 # Convert the library paths with /lib or /lib64 in the suppressions to those
@@ -170,8 +173,6 @@ export CFLAGS="`echo " ${CFLAGS} " | sed -e 's/ -fPIC//'`"
 # fix flags in other cases (CXXFLAGS, FFLAGS):
 %define optflags $CFLAGS
 
-# rebuild unconditionally because we patch configure.in
-autoreconf
 %configure2_5x
 
 %make
