@@ -69,7 +69,7 @@ ExclusiveArch:	%{ix86} x86_64 ppc %{arm}
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
 # (proyvind): build with support for OpenMP, boost & qt4 threads
-BuildRequires:	libgomp-devel boost-devel
+BuildRequires:	gomp-devel boost-devel
 %if %{with qt4}
 BuildRequires:	qt4-devel
 %endif
