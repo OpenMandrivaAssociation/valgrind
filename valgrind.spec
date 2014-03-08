@@ -8,7 +8,7 @@
 
 Name: 		valgrind
 Version:	3.9.0
-Release:	1
+Release:	2
 Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
@@ -52,6 +52,15 @@ Patch12:	valgrind-3.9.0-manpage-memcheck-options.patch
 
 # KDE#328455 - s390x SIGILL after emitting wrong register pair for ldxbr
 Patch13:	valgrind-3.9.0-s390-fpr-pair.patch
+
+# KDE#331337 - s390x WARNING: unhandled syscall: 326 (dup3)
+Patch14: valgrind-3.9.0-s390-dup3.patch
+
+# KDE#331380 - Syscall param timer_create(evp) points to uninitialised byte(s)
+Patch15: valgrind-3.9.0-timer_create.patch
+
+# Accept glibc 2.19 as valid (upstream valgrind svn r13829)
+Patch16: valgrind-3.9.0-glibc-2.19.patch
 
 Patch101:	valgrind-3.9.0-glibc-2.19.patch
 
@@ -129,7 +138,9 @@ Development files required to develop software using valgrind.
 %patch12 -p1
 %patch13 -p1
 
-%patch101 -p1 -b .glibc219~
+%patch14 -p1
+%patch15 -p1
+%patch16 -p1
 
 # These tests go into an endless loop on ARM
 # There is a __sync_add_and_fetch in the testcase.

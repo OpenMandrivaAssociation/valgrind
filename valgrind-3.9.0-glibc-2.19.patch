@@ -1,6 +1,19 @@
-diff -Naur valgrind-3.9.0-orig/configure valgrind-3.9.0/configure
---- valgrind-3.9.0-orig/configure	2013-11-01 09:33:32.000000000 +1000
-+++ valgrind-3.9.0/configure	2014-02-08 09:28:06.063248544 +1000
+diff -ur valgrind-3.9.0.orig/config.h.in valgrind-3.9.0/config.h.in
+--- valgrind-3.9.0.orig/config.h.in	2014-02-21 22:35:28.368908710 +0100
++++ valgrind-3.9.0/config.h.in	2014-02-21 22:36:09.000000000 +0100
+@@ -57,6 +57,9 @@
+ /* Define to 1 if you're using glibc 2.18.x */
+ #undef GLIBC_2_18
+ 
++/* Define to 1 if you're using glibc 2.19.x */
++#undef GLIBC_2_19
++
+ /* Define to 1 if you're using glibc 2.2.x */
+ #undef GLIBC_2_2
+ 
+diff -ur valgrind-3.9.0.orig/configure valgrind-3.9.0/configure
+--- valgrind-3.9.0.orig/configure	2014-02-21 22:35:28.425909165 +0100
++++ valgrind-3.9.0/configure	2014-02-21 23:20:33.425979851 +0100
 @@ -6689,6 +6689,16 @@
  	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
  	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
@@ -18,9 +31,20 @@ diff -Naur valgrind-3.9.0-orig/configure valgrind-3.9.0/configure
       darwin)
  	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Darwin" >&5
  $as_echo "Darwin" >&6; }
-diff -Naur valgrind-3.9.0-orig/configure.ac valgrind-3.9.0/configure.ac
---- valgrind-3.9.0-orig/configure.ac	2013-11-01 09:28:16.000000000 +1000
-+++ valgrind-3.9.0/configure.ac	2014-02-08 09:27:38.870385366 +1000
+@@ -6709,8 +6719,8 @@
+      *)
+ 	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: unsupported version ${GLIBC_VERSION}" >&5
+ $as_echo "unsupported version ${GLIBC_VERSION}" >&6; }
+-	as_fn_error $? "Valgrind requires glibc version 2.2 - 2.17" "$LINENO" 5
+-	as_fn_error $? "or Darwin libc" "$LINENO" 5
++	as_fn_error $? "Valgrind requires glibc version 2.2 - 2.19" "$LINENO" 5
++	as_fn_error $? "or Darwin or Bionic libc" "$LINENO" 5
+ 	;;
+ esac
+ 
+diff -ur valgrind-3.9.0.orig/configure.ac valgrind-3.9.0/configure.ac
+--- valgrind-3.9.0.orig/configure.ac	2014-02-21 22:35:28.368908710 +0100
++++ valgrind-3.9.0/configure.ac	2014-02-21 22:35:53.044106114 +0100
 @@ -918,6 +918,13 @@
  	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
  	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
@@ -35,3 +59,14 @@ diff -Naur valgrind-3.9.0-orig/configure.ac valgrind-3.9.0/configure.ac
       darwin)
  	AC_MSG_RESULT(Darwin)
  	AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
+@@ -931,8 +938,8 @@
+ 
+      *)
+ 	AC_MSG_RESULT([unsupported version ${GLIBC_VERSION}])
+-	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.17])
+-	AC_MSG_ERROR([or Darwin libc])
++	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.19])
++	AC_MSG_ERROR([or Darwin or Bionic libc])
+ 	;;
+ esac
+ 
