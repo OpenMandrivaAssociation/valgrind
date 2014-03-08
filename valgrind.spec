@@ -62,8 +62,6 @@ Patch15: valgrind-3.9.0-timer_create.patch
 # Accept glibc 2.19 as valid (upstream valgrind svn r13829)
 Patch16: valgrind-3.9.0-glibc-2.19.patch
 
-Patch101:	valgrind-3.9.0-glibc-2.19.patch
-
 URL: 		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc %{arm}
 BuildRequires:	glibc-static-devel
