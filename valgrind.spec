@@ -156,11 +156,6 @@ rm -f drd/tests/annotate_trace_memory.vgtest
 autoreconf
 
 %build
-
-# Convert the library paths with /lib or /lib64 in the suppressions to those
-# with /usr/lib or /usr/lib64 due to the /usrmove .
-perl -pi -e 's!obj:/lib!obj:/usr/lib!g' *.supp *.supp.in
-
 # (From Fedora):
 # Filter out some flags that cause lots of valgrind test failures.
 # Also filter away -O2, valgrind adds it wherever suitable, but
