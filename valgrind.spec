@@ -219,6 +219,8 @@ for i in `find . -type f \( -name *-amd64-linux -o -name *-x86-linux -o -name *-
   esac
 done
 
+sed -e 's#-gdwarf-4##g' -i memcheck/tests/Makefile
+
 make check || :
 # some tests are known to fail,
 # just check no more tests are failing than Fedora ;)
