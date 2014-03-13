@@ -2,16 +2,16 @@
 %define _disable_ld_no_undefined 1
 
 # disable debug package, it can prevent valgrind for working properly
-%define debug_package   %{nil}
+%define	debug_package	%{nil}
 
 %bcond_without	qt4
 
-Name: 		valgrind
+Name:		valgrind
 Version:	3.9.0
 Release:	2
-Summary: 	Memory debugger
-License: 	GPLv2+
-Group: 		Development/Other
+Summary:	Memory debugger
+License:	GPLv2+
+Group:		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 Source1:	%{name}.rpmlintrc
 # From Fedora:
@@ -63,7 +63,7 @@ Patch15: valgrind-3.9.0-timer_create.patch
 # Accept glibc 2.19 as valid (upstream valgrind svn r13829)
 Patch16: valgrind-3.9.0-glibc-2.19.patch
 
-URL: 		http://valgrind.org/
+URL:		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc %{arm}
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
