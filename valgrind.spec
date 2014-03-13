@@ -13,6 +13,7 @@ Summary: 	Memory debugger
 License: 	GPLv2+
 Group: 		Development/Other
 Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
+Source1:	%{name}.rpmlintrc
 # From Fedora:
 # Needs investigation and pushing upstream
 Patch1:		valgrind-3.9.0-cachegrind-improvements.patch
