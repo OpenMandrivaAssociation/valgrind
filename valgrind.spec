@@ -103,7 +103,7 @@ intercepted. As a result, Valgrind can detect problems such as:
 
 %package	devel
 Summary:	%{summary}
-Group:		%{group}
+Group:		Development/Other
 Conflicts:	%{name} < 3.6.1-3
 
 %description	devel
