@@ -91,8 +91,9 @@ intercepted. As a result, Valgrind can detect problems such as:
 %doc README* AUTHORS FAQ.txt
 %{_bindir}/*
 %dir %{_libdir}/valgrind
-%{_libdir}/valgrind/*[^ao]
-%{_libdir}/valgrind/[^l]*o
+%{_libdir}/valgrind/default.supp
+%{_libdir}/valgrind/*.so
+%{_libdir}/valgrind/*-linux
 %{_mandir}/man1/*.1*
 %{_datadir}/valgrind/*.xml
 %{_datadir}/valgrind/default.supp
