@@ -1,14 +1,11 @@
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 
-# disable debug package, it can prevent valgrind for working properly
-%define	debug_package	%{nil}
-
 %bcond_without	qt4
 
 Name:		valgrind
 Version:	3.9.0
-Release:	2
+Release:	3
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
@@ -173,12 +170,7 @@ export CFLAGS="`echo " ${CFLAGS} " | sed -e 's/ -fPIC//'`"
 %make
 
 %install
-# Don't strip (prevent valgrind from working properly, as explained in README_PACKAGERS)
-export DONT_STRIP=1
-
-# FIXME exporting DONT_STRIP=1 is causing some weird behavior with debug_package
-# and causing it to not set DISABLE_DEBUG=1
-export DISABLE_DEBUG=1
+export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind/
 
 %makeinstall
 
