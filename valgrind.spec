@@ -2,14 +2,18 @@
 %define _disable_ld_no_undefined 1
 
 %bcond_without	qt4
+%ifnarch aarch64
+%bcond_without	openmpi
+%endif
 
 Name:		valgrind
-Version:	3.9.0
-Release:	3
+Version:	3.10.0
+%define	svnrev	13884
+Release:	0.svn%{svnrev}.1
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
-Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
+Source0:	http://www.valgrind.org/downloads/%{name}-%{version}%{?svnrev:.svn%{svnrev}}.tar.%{?svnrev:xz}%{?!svnrev:.bz2}
 Source1:	%{name}.rpmlintrc
 # From Fedora:
 # Needs investigation and pushing upstream
@@ -24,48 +28,18 @@ Patch3:		valgrind-3.9.0-stat_h.patch
 # Make ld.so supressions slightly less specific.
 Patch4:		valgrind-3.9.0-ldso-supp.patch
 
-# On some ppc64 installs these test just hangs
-Patch5:		valgrind-3.9.0-gdbserver_tests-mcinvoke-ppc64.patch
-
-# KDE#326983 - insn_basic test might crash because of setting DF flag 
-Patch6:		valgrind-3.9.0-amd64_gen_insn_test.patch
-
-# KDE#327837 - dwz compressed alternate .debug_info/str not read correctly.
-Patch7:		valgrind-3.9.0-dwz-alt-buildid.patch
-
-# KDE#327284 - s390x VEX miscompilation of -march=z10 binary
-Patch8:		valgrind-3.9.0-s390-risbg.patch
-
-# KDE#327916 - DW_TAG_typedef may have no name
-Patch9:		valgrind-3.9.0-anon-typedef.patch
-
 # KDE#327943 - s390x missing index/strchr suppression for ld.so bad backtrace?
-Patch10:	valgrind-3.9.0-s390x-ld-supp.patch
-
-# KDE#328100 - XABORT not implemented
-Patch11:	valgrind-3.9.0-xabort.patch
-
-# KDE#328711 - valgrind.1 manpage "memcheck options" section is bad
-Patch12:	valgrind-3.9.0-manpage-memcheck-options.patch
-
-# KDE#328455 - s390x SIGILL after emitting wrong register pair for ldxbr
-Patch13:	valgrind-3.9.0-s390-fpr-pair.patch
-
-# KDE#331337 - s390x WARNING: unhandled syscall: 326 (dup3)
-Patch14: valgrind-3.9.0-s390-dup3.patch
-
-# KDE#331380 - Syscall param timer_create(evp) points to uninitialised byte(s)
-Patch15: valgrind-3.9.0-timer_create.patch
-
-# Accept glibc 2.19 as valid (upstream valgrind svn r13829)
-Patch16: valgrind-3.9.0-glibc-2.19.patch
+Patch5:		valgrind-3.9.0-s390x-ld-supp.patch
 
 URL:		http://valgrind.org/
-ExclusiveArch:	%{ix86} x86_64 ppc %{arm}
+ExclusiveArch:	%{ix86} x86_64 ppc %{armx}
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
 # (proyvind): build with support for OpenMP, openmpi, boost & qt4 threads
-BuildRequires:	gomp-devel boost-devel pkgconfig(ompi)
+BuildRequires:	gomp-devel boost-devel
+%if %{with openmpi}
+BuildRequires:	pkgconfig(ompi)
+%endif
 %if %{with qt4}
 BuildRequires:	qt4-devel
 %endif
@@ -86,7 +60,7 @@ intercepted. As a result, Valgrind can detect problems such as:
     * Mismatched use of malloc/new/new [] vs free/delete/delete []
 
 %files
-%doc README* AUTHORS FAQ.txt
+%doc README* AUTHORS
 %{_bindir}/*
 %dir %{_libdir}/valgrind
 %{_libdir}/valgrind/*.so
@@ -114,29 +88,16 @@ Development files required to develop software using valgrind.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}.svn%{svnrev}
 
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %ifarch s390x
-%patch10 -p1
+%patch5 -p1
 %endif
-
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
 
 # These tests go into an endless loop on ARM
 # There is a __sync_add_and_fetch in the testcase.
@@ -153,14 +114,23 @@ autoreconf
 
 %build
 %global optflags %(echo %{optflags} | sed -e 's#-fPIC##g')
-%configure2_5x
+%configure2_5x \
+%if %{with openmpi}
+	--with-mpicc=%{mpiccpath} \
+%endif
+%ifarch aarch64
+	--enable-only64bit
+%endif
 
 %make
+# no idea why it doesn't automatically build these..
+%make -C docs man-pages
 
 %install
 export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind
 
 %makeinstall_std
+%makeinstall_std -C docs
 
 %check
 # Ensure there are no unexpected file descriptors open,
