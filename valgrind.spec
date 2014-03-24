@@ -64,8 +64,8 @@ URL:		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc %{arm}
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
-# (proyvind): build with support for OpenMP, boost & qt4 threads
-BuildRequires:	gomp-devel boost-devel
+# (proyvind): build with support for OpenMP, openmpi, boost & qt4 threads
+BuildRequires:	gomp-devel boost-devel pkgconfig(ompi)
 %if %{with qt4}
 BuildRequires:	qt4-devel
 %endif
