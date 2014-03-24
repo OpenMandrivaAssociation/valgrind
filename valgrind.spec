@@ -89,12 +89,11 @@ intercepted. As a result, Valgrind can detect problems such as:
 %doc README* AUTHORS FAQ.txt
 %{_bindir}/*
 %dir %{_libdir}/valgrind
-%{_libdir}/valgrind/default.supp
 %{_libdir}/valgrind/*.so
 %{_libdir}/valgrind/*-linux
+%{_libdir}/valgrind/*.xml
+%{_libdir}/valgrind/*.supp
 %{_mandir}/man1/*.1*
-%{_datadir}/valgrind/*.xml
-%{_datadir}/valgrind/default.supp
 
 #--------------------------------------------------------------------
 
@@ -145,45 +144,23 @@ Development files required to develop software using valgrind.
 # which causes the reservation (LDREX) to fail so
 # it can never make progress.
 %ifarch %{arm}
-rm -f drd/tests/annotate_trace_memory_xml.vgtest
-rm -f drd/tests/annotate_trace_memory.vgtest
+rm drd/tests/annotate_trace_memory_xml.vgtest
+rm drd/tests/annotate_trace_memory.vgtest
 %endif
 
 # rebuild unconditionally because we patch configure.in
 autoreconf
 
 %build
-# (From Fedora):
-# Filter out some flags that cause lots of valgrind test failures.
-# Also filter away -O2, valgrind adds it wherever suitable, but
-# not for tests which should be -O0, as they aren't meant to be
-# compiled with -O2 unless explicitely requested.
-export CFLAGS="`echo " %{optflags} " | sed 's/ -m\(64\|3[21]\) / /g;s/ -fexceptions / /g;s/ -fstack-protector / / g;s/ -Wp,-D_FORTIFY_SOURCE=2 / /g;s/-O2 / /g;s/^ //;s/ $//'`"
-
-# filter out one more flag (unused in FC but causes faillure in mga3:
-export CFLAGS="`echo " ${CFLAGS} " | sed -e 's/ -fPIC//'`"
-# fix flags in other cases (CXXFLAGS, FFLAGS):
-%define optflags $CFLAGS
-
+%global optflags %(echo %{optflags} | sed -e 's#-fPIC##g')
 %configure2_5x
 
 %make
 
 %install
-export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind/
+export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind
 
-%makeinstall
-
-mkdir %buildroot/%_datadir/valgrind
-mv  %buildroot/%_libdir/valgrind/*.{supp,xml} %buildroot/%_datadir/valgrind
-
-# It's a kludge, but appears to get valgrind to work, because it looks for
-# default.supp under %%{_libdir} instead of under %%{_datadir}, where it is
-# now installed.
-ln -sf %{_datadir}/valgrind/default.supp "$RPM_BUILD_ROOT"/%{_libdir}/valgrind/default.supp
-
-#don't package generated files
-rm -f $RPM_BUILD_ROOT%{_libdir}/valgrind/*.supp.in
+%makeinstall_std
 
 %check
 # Ensure there are no unexpected file descriptors open,
