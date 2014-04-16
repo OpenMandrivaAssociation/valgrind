@@ -8,7 +8,7 @@
 
 Name:		valgrind
 Version:	3.10.0
-%define	svnrev	13884
+%define	svnrev	13896
 Release:	0.svn%{svnrev}.1
 Summary:	Memory debugger
 License:	GPLv2+
