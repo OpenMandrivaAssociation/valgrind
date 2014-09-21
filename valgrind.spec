@@ -3,7 +3,7 @@
 
 %bcond_without	qt4
 %ifnarch aarch64
-%bcond_without	openmpi
+%bcond_with	openmpi
 %endif
 
 Name:		valgrind
@@ -34,7 +34,7 @@ BuildRequires:	gdb
 # (proyvind): build with support for OpenMP, openmpi, boost & qt4 threads
 BuildRequires:	gomp-devel boost-devel
 %if %{with openmpi}
-BuildRequires:	pkgconfig(ompi)
+BuildRequires:	openmpi-devel
 %endif
 %if %{with qt4}
 BuildRequires:	qt4-devel
