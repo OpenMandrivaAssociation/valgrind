@@ -39,6 +39,7 @@ BuildRequires:	openmpi-devel
 %if %{with qt4}
 BuildRequires:	qt4-devel
 %endif
+BuildRequires:	docbook-style-xsl
 Suggests:	gdb
 Obsoletes:	valgrind-plugins
 
