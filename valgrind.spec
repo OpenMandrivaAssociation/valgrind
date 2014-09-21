@@ -8,12 +8,11 @@
 
 Name:		valgrind
 Version:	3.10.0
-%define	svnrev	13896
-Release:	0.svn%{svnrev}.1
+Release:	1
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
-Source0:	http://www.valgrind.org/downloads/%{name}-%{version}%{?svnrev:.svn%{svnrev}}.tar.%{?svnrev:xz}%{?!svnrev:.bz2}
+Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 Source1:	%{name}.rpmlintrc
 # From Fedora:
 # Needs investigation and pushing upstream
@@ -27,9 +26,6 @@ Patch3:		valgrind-3.9.0-stat_h.patch
 
 # Make ld.so supressions slightly less specific.
 Patch4:		valgrind-3.9.0-ldso-supp.patch
-
-# KDE#327943 - s390x missing index/strchr suppression for ld.so bad backtrace?
-Patch5:		valgrind-3.9.0-s390x-ld-supp.patch
 
 URL:		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc %{armx}
@@ -88,16 +84,12 @@ Development files required to develop software using valgrind.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}-%{version}.svn%{svnrev}
+%setup -q
 
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-
-%ifarch s390x
-%patch5 -p1
-%endif
 
 # These tests go into an endless loop on ARM
 # There is a __sync_add_and_fetch in the testcase.
