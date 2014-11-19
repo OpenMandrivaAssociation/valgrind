@@ -131,6 +131,8 @@ autoreconf
 
 %build
 %global optflags %(echo %{optflags} | sed -e 's#-fPIC##g')
+%define __cc gcc
+%define	__cxx g++
 %configure \
 %if %{with openmpi}
 	--with-mpicc=%{mpiccpath} \
