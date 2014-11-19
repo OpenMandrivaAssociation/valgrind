@@ -1,0 +1,24 @@
+commit 5343bb38f44897fcb179b4756d75294719d75fbb
+Author: mjw <mjw@8f6e269a-dfd6-0310-a8e1-e2731360e62c>
+Date:   Sat Oct 11 19:13:35 2014 +0000
+
+    Bug 339858 arm64 recognize dmb sy. Data Memory Barrier full SYstem variant.
+    
+    git-svn-id: svn://svn.valgrind.org/vex/trunk@2975 8f6e269a-dfd6-0310-a8e1-e2731360e62c
+
+diff --git a/VEX/priv/guest_arm64_toIR.c b/VEX/priv/guest_arm64_toIR.c
+index 2aa145c..5ebe0a6 100644
+--- a/VEX/priv/guest_arm64_toIR.c
++++ b/VEX/priv/guest_arm64_toIR.c
+@@ -5537,6 +5537,11 @@ Bool dis_ARM64_branch_etc(/*MB_OUT*/DisResult* dres, UInt insn,
+       DIP("isb\n");
+       return True;
+    }
++   if (INSN(31,0) == 0xD5033FBF) {
++      stmt(IRStmt_MBE(Imbe_Fence));
++      DIP("dmb sy\n");
++      return True;
++   }
+    if (INSN(31,0) == 0xD5033BBF) {
+       stmt(IRStmt_MBE(Imbe_Fence));
+       DIP("dmb ish\n");
