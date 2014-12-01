@@ -7,8 +7,8 @@
 %endif
 
 Name:		valgrind
-Version:	3.10.0
-Release:	2
+Version:	3.10.1
+Release:	1
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
@@ -26,31 +26,6 @@ Patch3:		valgrind-3.9.0-stat_h.patch
 
 # Make ld.so supressions slightly less specific.
 Patch4:		valgrind-3.9.0-ldso-supp.patch
-
-# Recognize and warn about usage of old (broken) ppc32 magic instr preamble.
-# https://bugs.kde.org/show_bug.cgi?id=278808#c6
-Patch5:		valgrind-3.10.0-old-ppc32-instr-magic.patch
-
-# KDE#339853 arm64 times syscall unknown
-# KDE#339856 arm64 unhandled getsid/setsid syscalls.
-# KDE#339940 arm64 unhandled syscall: 83 (sys_fdatasync)
-# KDE#340028 unhandled syscalls for arm64 (msync, pread64, setreuid, setregid)
-# KDE#340236 arm64 mknodat (33), fchdir (50), chroot (51), fchownat (54)
-# KDE#340630 arm64 fchmod (52) and fchown (55) syscalls not recognized.
-Patch6:		valgrind-3.10.0-aarch64-syscalls.patch
-
-# KDE#339858 arm64 recognize dmb sy. Data Memory Barrier full SYstem variant.
-Patch7:		valgrind-3.10.0-aarch64-dmb-sy.patch
-
-# KDE#339926 Implement frintx d_d and s_s.
-Patch8:		valgrind-3.10.0-aarch64-frint.patch
-
-# KDE#339927 Implement fcvtmu x_d.
-Patch9:		valgrind-3.10.0-fcvtmu.patch
-
-# KDE#340509 Implement FCVTAS W_S and FCVTAU W_S.
-# KDE#340632 arm64: unhandled instruction fcvtas
-Patch10:	valgrind-3.10.0-aarch64-fcvta.patch
 
 URL:		http://valgrind.org/
 ExclusiveArch:	%{ix86} x86_64 ppc %{armx}
