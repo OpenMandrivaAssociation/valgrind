@@ -1,0 +1,31 @@
+--- valgrind-3.10.1/coregrind/m_redir.c.ldso_strlen_hack~	2014-11-25 20:41:21.000000000 +0100
++++ valgrind-3.10.1/coregrind/m_redir.c	2015-01-07 19:36:39.923464743 +0100
+@@ -1255,9 +1255,11 @@ void VG_(redir_initialise) ( void )
+       add_hardwired_spec(
+          "ld-linux.so.2", "index",
+          (Addr)&VG_(x86_linux_REDIR_FOR_index), mandatory);
++#if CI_HACK_strlen
+       add_hardwired_spec(
+          "ld-linux.so.2", "strlen",
+          (Addr)&VG_(x86_linux_REDIR_FOR_strlen), mandatory);
++#endif
+    }
+ 
+ #  elif defined(VGP_amd64_linux)
+@@ -1279,6 +1281,7 @@ void VG_(redir_initialise) ( void )
+       the start, otherwise ld.so makes a lot of noise. */
+    if (0==VG_(strcmp)("Memcheck", VG_(details).name)) {
+ 
++#if CI_HACK_strlen
+       add_hardwired_spec(
+          "ld-linux-x86-64.so.2", "strlen",
+          (Addr)&VG_(amd64_linux_REDIR_FOR_strlen),
+@@ -1292,6 +1295,8 @@ void VG_(redir_initialise) ( void )
+          complain_about_stripped_glibc_ldso
+ #        endif
+       );   
++#endif
++
+    }
+ 
+ #  elif defined(VGP_ppc32_linux)
