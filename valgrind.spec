@@ -29,6 +29,8 @@ Patch4:		valgrind-3.9.0-ldso-supp.patch
 
 Patch5:		valgrind-3.10.1-kernel-4.0.patch
 Patch6:		valgrind-3.10.1-glibc-version-check.patch
+Patch7:		valgrind-3.10.1-aarch64-syscalls.patch
+Patch8:		valgrind-3.10.1-cfi-redzone.patch
 # ours
 # strlen is no longer to be found in ld.so, dunno why, but let's just work
 # around it for now...
