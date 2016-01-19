@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   valgrind-3.10.1.tar.bz2: 15518427de842547ffa84eff8b2b67f3b16581a8
+sources:
+  valgrind-3.11.0.tar.bz2: 340757e91d9e83591158fe8bb985c6b11bc53de5

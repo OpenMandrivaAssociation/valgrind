@@ -7,8 +7,8 @@
 %endif
 
 Name:		valgrind
-Version:	3.10.1
-Release:	5
+Version:	3.11.0
+Release:	1
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
@@ -27,10 +27,6 @@ Patch3:		valgrind-3.9.0-stat_h.patch
 # Make ld.so supressions slightly less specific.
 Patch4:		valgrind-3.9.0-ldso-supp.patch
 
-Patch5:		valgrind-3.10.1-kernel-4.0.patch
-Patch6:		valgrind-3.10.1-glibc-version-check.patch
-Patch7:		valgrind-3.10.1-aarch64-syscalls.patch
-Patch8:		valgrind-3.10.1-cfi-redzone.patch
 # ours
 # strlen is no longer to be found in ld.so, dunno why, but let's just work
 # around it for now...
