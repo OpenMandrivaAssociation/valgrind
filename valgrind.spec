@@ -10,7 +10,7 @@
 
 Name:		valgrind
 Version:	3.11.0
-Release:	1
+Release:	2
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
@@ -127,7 +127,7 @@ Patch35: valgrind-3.11.0-s390x-risbgn.patch
 # ours
 # strlen is no longer to be found in ld.so, dunno why, but let's just work
 # around it for now...
-#Patch100:	valgrind-3.10.1-hack-around-strlen-no-longer-exported-by-ld.so.patch
+Patch100:	valgrind-3.11.0-hack-around-strlen-no-longer-exported-by-ld.so.patch
 Patch101:	valgrind-3.7.0-respect-flags.patch
 
 URL:		http://valgrind.org/
