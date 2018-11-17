@@ -1,11 +1,11 @@
 #one of valgrind internal library is not linked to libc. Not sure if it should be fixed or not (since all test don't pass anyway), so disable check for now
 %define _disable_ld_no_undefined 1
 %define _disable_lto %{nil}
-%define	_ssp_cflags %{nil}
+%define _ssp_cflags %{nil}
 
-%bcond_with	qt4
+%bcond_with qt4
 %ifnarch aarch64
-%bcond_with	openmpi
+%bcond_with openmpi
 %endif
 
 Name:		valgrind
@@ -18,13 +18,13 @@ Source0:	ftp://sourceware.org/pub/valgrind/%{name}-%{version}.tar.bz2
 Source1:	%{name}.rpmlintrc
 
 # Needs investigation and pushing upstream
-Patch1: valgrind-3.9.0-cachegrind-improvements.patch
+Patch1:		valgrind-3.9.0-cachegrind-improvements.patch
 
 # KDE#211352 - helgrind races in helgrind's own mythread_wrapper
-Patch2: valgrind-3.9.0-helgrind-race-supp.patch
+Patch2:		valgrind-3.9.0-helgrind-race-supp.patch
 
 # Make ld.so supressions slightly less specific.
-Patch3: valgrind-3.9.0-ldso-supp.patch
+Patch3:		valgrind-3.9.0-ldso-supp.patch
 
 # ours
 # strlen is no longer to be found in ld.so, dunno why, but let's just work
@@ -33,11 +33,11 @@ Patch100:	valgrind-3.11.0-hack-around-strlen-no-longer-exported-by-ld.so.patch
 Patch101:	valgrind-3.7.0-respect-flags.patch
 
 URL:		http://valgrind.org/
-ExclusiveArch:	%{ix86} x86_64 ppc %{armx}
 BuildRequires:	glibc-static-devel
 BuildRequires:	gdb
 # (proyvind): build with support for OpenMP, openmpi, boost & qt4 threads
-BuildRequires:	gomp-devel boost-devel
+BuildRequires:	gomp-devel
+BuildRequires:	boost-devel
 %if %{with openmpi}
 BuildRequires:	openmpi-devel
 %endif
@@ -75,12 +75,13 @@ intercepted. As a result, Valgrind can detect problems such as:
 
 #--------------------------------------------------------------------
 
-%package	devel
+%package devel
 Summary:	%{summary}
 Group:		Development/Other
 Conflicts:	%{name} < 3.6.1-3
+Requires:	%{name} >= %{EVRD}
 
-%description	devel
+%description devel
 Development files required to develop software using valgrind.
 
 %files devel
@@ -92,8 +93,7 @@ Development files required to develop software using valgrind.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q
-%apply_patches
+%autop -p1
 
 # These tests go into an endless loop on ARM
 # There is a __sync_add_and_fetch in the testcase.
@@ -115,7 +115,7 @@ export PATH=$PWD/bfd:$PATH
 
 %global optflags %(echo %{optflags} -fuse-ld=bfd | sed -e 's#-fPIC##g')
 %define __cc gcc
-%define	__cxx g++
+%define __cxx g++
 %configure \
 %if %{with openmpi}
 	--with-mpicc=%{mpiccpath} \
@@ -124,15 +124,18 @@ export PATH=$PWD/bfd:$PATH
 	--enable-only64bit
 %endif
 
-%make LD="%{_target_platform}-ld.bfd"
+%make_build LD="%{_target_platform}-ld.bfd"
 # no idea why it doesn't automatically build these..
-%make -C docs man-pages
+%make_build -C docs man-pages
 
 %install
 export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind
 
-%makeinstall_std
-%makeinstall_std -C docs
+%make_install
+%make_install -C docs
+
+# (tpg) kill all the docs
+rm -rf %{buildroot}%{_docdir}/%{name}
 
 %check
 # Ensure there are no unexpected file descriptors open,
@@ -151,10 +154,10 @@ int main (int argc, char *const argv[])
   exit (1);
 }
 EOF
-%{__cc} $RPM_OPT_FLAGS -o close_fds close_fds.c
+%{__cc} %{optflags} -o close_fds close_fds.c
 
-for i in `find . -type f \( -name *-amd64-linux -o -name *-x86-linux -o -name *-ppc*-linux \)`; do
-  case "`file $i`" in
+for i in $(find . -type f \( -name *-amd64-linux -o -name *-x86-linux -o -name *-ppc*-linux \)); do
+  case "$(file $i)" in
     *ELF*executable*statically\ linked*)
       objcopy -R .debug_loc -R .debug_frame -R .debug_ranges $i
   esac
