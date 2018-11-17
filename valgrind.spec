@@ -3,7 +3,7 @@
 %define _disable_lto %{nil}
 %define	_ssp_cflags %{nil}
 
-%bcond_without	qt4
+%bcond_with	qt4
 %ifnarch aarch64
 %bcond_with	openmpi
 %endif
