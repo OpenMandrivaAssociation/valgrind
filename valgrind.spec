@@ -93,7 +93,7 @@ Development files required to develop software using valgrind.
 #--------------------------------------------------------------------
 
 %prep
-%autop -p1
+%autosetup -p1
 
 # These tests go into an endless loop on ARM
 # There is a __sync_add_and_fetch in the testcase.
