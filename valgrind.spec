@@ -9,12 +9,12 @@
 %endif
 
 Name:		valgrind
-Version:	3.13.0
-Release:	2
+Version:	3.14.0
+Release:	1
 Summary:	Memory debugger
 License:	GPLv2+
 Group:		Development/Other
-Source0:	ftp://sourceware.org/pub/valgrind/%{name}-%{version}.tar.bz2
+Source0:	http://www.valgrind.org/downloads/%{name}-%{version}.tar.bz2
 Source1:	%{name}.rpmlintrc
 
 # Needs investigation and pushing upstream
@@ -124,15 +124,15 @@ export PATH=$PWD/bfd:$PATH
 	--enable-only64bit
 %endif
 
-%make_build LD="%{_target_platform}-ld.bfd"
+%make LD="%{_target_platform}-ld.bfd"
 # no idea why it doesn't automatically build these..
-%make_build -C docs man-pages
+%make -C docs man-pages
 
 %install
 export EXCLUDE_FROM_STRIP=%{_libdir}/valgrind
 
-%make_install
-%make_install -C docs
+%makeinstall_std
+%makeinstall_std -C docs
 
 # (tpg) kill all the docs
 rm -rf %{buildroot}%{_docdir}/%{name}
@@ -173,4 +173,3 @@ echo ===============TESTING===================
 # http://thread.gmane.org/gmane.comp.debugging.valgrind/11792
 # ./close_fds make regtest || :
 echo ===============END TESTING===============
-
