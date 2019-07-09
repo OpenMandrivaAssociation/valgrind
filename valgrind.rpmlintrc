@@ -1,3 +1,0 @@
-addFilter('valgrind\..* shared-lib-without-dependency-information.*/usr/lib.*/valgrind/vgpreload.*\.so')
-addFilter('valgrind\..* statically-linked-binary.* /usr/lib.*/valgrind/.*-linux')
-addFilter('valgrind\..* unstripped-binary-or-object.* /usr/lib.*/valgrind/.*')
