@@ -14,12 +14,12 @@
 
 Summary:	Tool for finding memory management bugs in programs
 Name:		valgrind
-Version:	3.15.0
-Release:	%mkrel 2
+Version:	3.16.0
+Release:	1
 License:	GPLv2+
 Group:		Development/Tools
 URL:		http://valgrind.org/
-ExclusiveArch: %{ix86} x86_64 ppc ppc64 ppc64le s390x %{arm} aarch64 %{riscv}
+ExclusiveArch: %{ix86} %{x86_64} ppc ppc64 ppc64le s390x %{arm} %{armx} %{riscv}
 Obsoletes:	valgrind-plugins
 
 # Note s390x doesn't have an openmpi port available.
@@ -54,42 +54,11 @@ Patch3: valgrind-3.9.0-ldso-supp.patch
 # same directory is used independent of arch.
 Patch4: valgrind-3.15.0-pkglibexecdir.patch
 
-# KDE#398649 s390x z13 support doesn't build with older gcc/binutils
-# Disable z13 support (on rhel6)
-Patch5: valgrind-3.15.0-disable-s390x-z13.patch
-
 # Add some stack-protector
 Patch6: valgrind-3.15.0-some-stack-protector.patch
 
-# KDE#406561  mcinfcallWSRU gdbserver_test fails on ppc64
-Patch7: valgrind-3.15.0-ppc64-filter_gdb.patch
-
-# KDE#407218 Add support for the copy_file_range syscall
-Patch8: valgrind-3.15.0-copy_file_range.patch
-
-# KDE#407307 Intercept stpcpy also in ld.so for arm64
-Patch9: valgrind-3.15.0-arm64-ld-stpcpy.patch
-
-# commit 59784c aarch64 (arm64) isn't a supported architecture for exp-sgcheck.
-Patch10: valgrind-3.15.0-exp-sgcheck-no-aarch64.patch
-
-# commit 917e42 Make memcheck/tests/arm64-linux/scalar work under root
-Patch11: valgrind-3.15.0-scalar-arm64.patch
-
-# commit abc09f Make memcheck/tests/x86-linux/scalar test work under root.
-Patch12: valgrind-3.15.0-scalar-x86.patch
-
-# KDE#407764 s390x: drd fails on z13 due to function wrapping issue
-Patch13: valgrind-3.15.0-s390x-wrap-drd.patch
-
 # Add some -Wl,z,now.
 Patch14: valgrind-3.15.0-some-Wl-z-now.patch
-
-# KDE#408009 Expose rdrand and f16c even on avx if host cpu supports them
-Patch15: valgrind-3.15.0-avx-rdrand-f16c.patch
-
-# KDE#408091 Missing pkey syscalls
-Patch16: valgrind-3.15.0-pkey.patch
 
 #END OF FEDORA PATCHES
 Patch1000: valgrind-3.13.0-arm.patch
@@ -182,32 +151,7 @@ Valgrind User Manual for details.
 #--------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-
-# Old rhel gcc doesn't have -fstack-protector-strong.
-%patch6 -p1
-
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-
-# This depends on patch6, old rhel gcc doesn't have -fstack-protector-strong.
-%if 0%{?fedora} || 0%{?rhel} >= 7
-%patch14 -p1
-%endif
-
-%patch15 -p1
-%patch16 -p1
-
-%patch1000 -p1
+%autosetup -p1
 
 %build
 export CC="%{_bindir}/gcc"
