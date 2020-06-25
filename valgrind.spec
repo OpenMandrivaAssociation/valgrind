@@ -34,7 +34,7 @@
 %define valarch x86
 %define only_arch --enable-only32bit
 %endif
-%ifarch x86_64
+%ifarch %{x86_64}
 %define valarch amd64
 %define only_arch --enable-only64bit
 %endif
@@ -54,7 +54,7 @@
 %define valarch s390x
 %define only_arch --enable-only64bit
 %endif
-%ifarch armv7hl
+%ifarch armv7hnl
 %define valarch arm
 %define only_arch --enable-only32bit
 %endif
