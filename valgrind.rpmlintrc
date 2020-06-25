@@ -1,0 +1,10 @@
+# Those binaries are OK and needed...
+addFilter("W: statically-linked-binary")
+
+# The .a files in %%{_libdir} are needed by valgrind binary,
+# so they need to reside in the main package
+addFilter("W: devel-file-in-non-devel-package")
+addFilter("E: unstripped-binary-or-object")
+
+# The vgapreload_*.so libraries in %%{_libdir} are OK
+addFilter("E: shared-lib-without-dependency-information")
