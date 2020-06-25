@@ -74,7 +74,7 @@ Url:		http://valgrind.org/
 # We could use %%valgrind_arches as defined in redhat-rpm-config
 # But that is really for programs using valgrind, it defines the
 # set of architectures that valgrind works correctly on.
-ExclusiveArch: %{ix86} %{x86_64} ppc ppc64 ppc64le s390x armv7hl aarch64
+ExclusiveArch: %{ix86} %{x86_64} ppc ppc64 ppc64le s390x %{armx}
 
 # Packaged manually when building a git snapshot!
 # git clone git://sourceware.org/git/valgrind.git
