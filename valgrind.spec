@@ -1,5 +1,5 @@
 # From pre-branching point as Fedora
-%define commit 55cdb7c4e
+%define commit 997b3b5b9
 %define commit_short %(echo %{commit} | head -c 5)
 
 # ROSA has a lot of hardening flags, they break valgrind
@@ -65,7 +65,7 @@
 
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
-Version:	3.16.1
+Version:	3.17.0
 Release:	1
 License:	GPLv2+
 Group:		Development/Tools
@@ -94,10 +94,6 @@ Patch1:		valgrind-3.9.0-cachegrind-improvements.patch
 Patch2:		valgrind-3.9.0-helgrind-race-supp.patch
 # Make ld.so supressions slightly less specific.
 Patch3:		valgrind-3.9.0-ldso-supp.patch
-# We want all executables and libraries in libexec instead of lib
-# so they are only available for valgrind usage itself and so the
-# same directory is used independent of arch.
-Patch4:		valgrind-3.16.0-pkglibexecdir.patch
 Patch5:		builtin_setjmp.patch
 
 BuildRequires:	binutils
@@ -179,6 +175,7 @@ Development files required to develop software using Valgrind.
 %dir %{_includedir}/valgrind
 %{_includedir}/valgrind/valgrind.h
 %{_includedir}/valgrind/callgrind.h
+%{_includedir}/valgrind/dhat.h
 %{_includedir}/valgrind/drd.h
 %{_includedir}/valgrind/helgrind.h
 %{_includedir}/valgrind/memcheck.h
