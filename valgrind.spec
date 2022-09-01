@@ -65,7 +65,7 @@
 
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
-Version:	3.17.0
+Version:	3.19.0
 Release:	1
 License:	GPLv2+
 Group:		Development/Tools
@@ -90,8 +90,6 @@ Source100:	%{name}.rpmlintrc
 
 # Needs investigation and pushing upstream
 Patch1:		valgrind-3.9.0-cachegrind-improvements.patch
-# KDE#211352 - helgrind races in helgrind's own mythread_wrapper
-Patch2:		valgrind-3.9.0-helgrind-race-supp.patch
 # Make ld.so supressions slightly less specific.
 Patch3:		valgrind-3.9.0-ldso-supp.patch
 Patch5:		builtin_setjmp.patch
