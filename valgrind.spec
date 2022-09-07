@@ -63,6 +63,8 @@
 %define only_arch --enable-only64bit
 %endif
 
+%global debugsource_template %{nil}
+
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
 Version:	3.19.0
