@@ -63,7 +63,7 @@
 %define only_arch --enable-only64bit
 %endif
 
-%global debugsource_template %{nil}
+%global debug_package %{nil}
 
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
