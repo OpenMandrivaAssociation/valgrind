@@ -68,7 +68,7 @@
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
 Version:	3.19.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Development/Tools
 Url:		http://valgrind.org/
@@ -94,10 +94,11 @@ Source100:	%{name}.rpmlintrc
 Patch1:		valgrind-3.9.0-cachegrind-improvements.patch
 # Make ld.so supressions slightly less specific.
 Patch3:		valgrind-3.9.0-ldso-supp.patch
-Patch5:		builtin_setjmp.patch
 
 BuildRequires:	binutils
+%ifarch %{aarch64}
 BuildRequires:	gcc-c++
+%endif
 BuildRequires:	gdb
 BuildRequires:	procps
 BuildRequires:	glibc-static-devel
@@ -225,11 +226,9 @@ Valgrind User Manual for details.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 
 %build
- 
 # Some patches (might) touch Makefile.am or configure.ac files.
 # Just always autoreconf so we don't need patches to prebuild files.
 ./autogen.sh
@@ -237,6 +236,13 @@ Valgrind User Manual for details.
 # We explicitly don't want the libmpi wrapper. So make sure that configure
 # doesn't pick some random mpi compiler that happens to be installed.
 %define mpiccpath /bin/false
+
+%ifarch %{aarch64}
+# Valgrind relies on __builtin_longjmp, which clang (as of 15.0)
+# doesn't implement for aarch64
+export CC=gcc
+export CXX=g++
+%endif
 
 %configure \
   --with-mpicc=%{mpiccpath} \
@@ -250,8 +256,8 @@ make FAQ.txt -C docs
 #make print-docs -C docs
  
 %install
-%makeinstall_std
-%makeinstall_std install-data-hook -C docs
+%make_install
+%make_install install-data-hook -C docs
  
 # We want the MPI wrapper installed under the openmpi libdir so the script
 # generating the MPI library requires picks them up and sets up the right
@@ -267,7 +273,7 @@ popd
 %endif
  
 %if %{build_tools_devel}
-%ifarch %{ix86} x86_64
+%ifarch %{ix86} %{x86_64}
 # To avoid multilib clashes in between i?86 and x86_64,
 # tweak installed <valgrind/config.h> a little bit.
 for i in HAVE_PTHREAD_CREATE_GLIBC_2_0 HAVE_PTRACE_GETREGS HAVE_AS_AMD64_FXSAVE64; do
