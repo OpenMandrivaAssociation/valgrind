@@ -113,6 +113,8 @@ BuildRequires:	/usr/bin/xsltproc
 #BuildRequires:	/usr/bin/pdfxmltex
 BuildRequires:	docbook-style-xsl
 BuildRequires:	docbook-dtd-xml
+BuildRequires:	docbook-dtd45-xml
+BuildRequires:	sgml-common
 
 %if %{run_full_regtest}
 Requires:	gdb
