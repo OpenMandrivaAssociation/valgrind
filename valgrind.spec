@@ -67,7 +67,7 @@
 
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
-Version:	3.21.0
+Version:	3.22.0
 Release:	1
 License:	GPLv2+
 Group:		Development/Tools
@@ -175,6 +175,7 @@ Development files required to develop software using Valgrind.
 %files devel
 %dir %{_includedir}/valgrind
 %{_includedir}/valgrind/valgrind.h
+%{_includedir}/valgrind/cachegrind.h
 %{_includedir}/valgrind/callgrind.h
 %{_includedir}/valgrind/dhat.h
 %{_includedir}/valgrind/drd.h
