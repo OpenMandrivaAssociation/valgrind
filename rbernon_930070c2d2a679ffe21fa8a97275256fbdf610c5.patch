@@ -1,0 +1,27 @@
+From 930070c2d2a679ffe21fa8a97275256fbdf610c5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?R=C3=A9mi=20Bernon?= <rbernon@codeweavers.com>
+Date: Sat, 28 Nov 2020 23:31:35 +0100
+Subject: [PATCH] Increase the number of supported CFI registers.
+
+MinGW may generate DWARF information with cie.ra_reg == 32, which makes
+Valgrind consider it invalid.
+---
+ coregrind/m_debuginfo/readdwarf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/coregrind/m_debuginfo/readdwarf.c b/coregrind/m_debuginfo/readdwarf.c
+index 7b8187ee6..102f41601 100644
+--- a/coregrind/m_debuginfo/readdwarf.c
++++ b/coregrind/m_debuginfo/readdwarf.c
+@@ -2085,7 +2085,7 @@ void ML_(read_debuginfo_dwarf1) (
+ #elif defined(VGP_s390x_linux)
+ # define N_CFI_REGS 66
+ #else
+-# define N_CFI_REGS 20
++# define N_CFI_REGS 33
+ #endif
+ 
+ /* Instructions for the automaton */
+-- 
+GitLab
+

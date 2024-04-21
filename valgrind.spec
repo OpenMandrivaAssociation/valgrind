@@ -68,7 +68,7 @@
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
 Version:	3.22.0
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Development/Tools
 Url:		http://valgrind.org/
@@ -94,6 +94,12 @@ Source100:	%{name}.rpmlintrc
 Patch1:		valgrind-3.9.0-cachegrind-improvements.patch
 # Make ld.so supressions slightly less specific.
 Patch3:		valgrind-3.9.0-ldso-supp.patch
+Patch10:	rbernon_930070c2d2a679ffe21fa8a97275256fbdf610c5.patch
+Patch11:	rbernon_c3d01f523774228bbd3f34b2a783b043de01c035.patch
+Patch12:	rbernon_0d262bd37e7ef9472c6b0f49c137dad5f80dae56.patch
+Patch13:	rbernon_ba5db7de4e168161de6cd57a84bdc5e70657f4ff.patch
+Patch14:	rbernon_73622f132d52db028bb65b08f43e1b88952199ab.patch
+Patch15:	rbernon_75799f756b1002e52d2f50f1ac7806ef1cc6e4bc.patch
 
 BuildRequires:	binutils
 %ifarch %{aarch64}

@@ -1,0 +1,35 @@
+From c3d01f523774228bbd3f34b2a783b043de01c035 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?R=C3=A9mi=20Bernon?= <rbernon@codeweavers.com>
+Date: Mon, 27 Sep 2021 23:16:10 +0200
+Subject: [PATCH] Support custom SP CFA instruction on x86.
+
+---
+ coregrind/m_debuginfo/readdwarf.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/coregrind/m_debuginfo/readdwarf.c b/coregrind/m_debuginfo/readdwarf.c
+index 102f41601..5c82a6d96 100644
+--- a/coregrind/m_debuginfo/readdwarf.c
++++ b/coregrind/m_debuginfo/readdwarf.c
+@@ -2527,11 +2527,16 @@ static Bool summarise_context(/*OUT*/Addr* base,
+                                ctxs->reg[ctx->ra_reg] );
+    SUMMARISE_HOW(si_m->bp_how, si_m->bp_off,
+                                ctxs->reg[FP_REG] );
++   SUMMARISE_HOW(si_m->sp_how, si_m->sp_off,
++                               ctxs->reg[SP_REG] );
+ 
+    /* on x86/amd64, it seems the old %{e,r}sp value before the call is
+       always the same as the CFA.  Therefore ... */
+-   si_m->sp_how = CFIR_CFAREL;
+-   si_m->sp_off = 0;
++   if (ctxs->reg[SP_REG].tag == RR_Undef)
++   {
++      si_m->sp_how = CFIR_CFAREL;
++      si_m->sp_off = 0;
++   }
+ 
+    /* also, gcc says "Undef" for %{e,r}bp when it is unchanged.  So
+       .. */
+-- 
+GitLab
+
