@@ -68,7 +68,7 @@
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
 Version:	3.22.0
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Development/Tools
 Url:		http://valgrind.org/
@@ -129,7 +129,10 @@ Recommends:	gdb
 %endif
 Provides:   valgrind-plugins = %{EVRD}
 Obsoletes:	valgrind-plugins < 3.13.0
-Requires:	glibc-debuginfo
+# FIXME this should really be a hard dependency, but we can't
+# do that while abf unconditionally moves debuginfo packages to
+# separate repositories
+Suggests:	glibc-debuginfo
 
 %description
 Valgrind is an instrumentation framework for building dynamic analysis 
