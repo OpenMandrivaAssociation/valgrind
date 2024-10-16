@@ -71,7 +71,7 @@ Version:	3.23.0
 Release:	1
 License:	GPLv2+
 Group:		Development/Tools
-Url:		http://valgrind.org/
+Url:		https://valgrind.org/
 
 # We could use %%valgrind_arches as defined in redhat-rpm-config
 # But that is really for programs using valgrind, it defines the
