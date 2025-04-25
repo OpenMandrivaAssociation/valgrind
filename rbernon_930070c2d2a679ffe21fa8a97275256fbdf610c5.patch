@@ -9,19 +9,15 @@ Valgrind consider it invalid.
  coregrind/m_debuginfo/readdwarf.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/coregrind/m_debuginfo/readdwarf.c b/coregrind/m_debuginfo/readdwarf.c
-index 7b8187ee6..102f41601 100644
---- a/coregrind/m_debuginfo/readdwarf.c
-+++ b/coregrind/m_debuginfo/readdwarf.c
-@@ -2085,7 +2085,7 @@ void ML_(read_debuginfo_dwarf1) (
- #elif defined(VGP_s390x_linux)
- # define N_CFI_REGS 66
+diff -up valgrind-3.25.0/coregrind/m_debuginfo/readdwarf.c.3~ valgrind-3.25.0/coregrind/m_debuginfo/readdwarf.c
+--- valgrind-3.25.0/coregrind/m_debuginfo/readdwarf.c.3~	2025-04-18 14:28:36.000000000 +0200
++++ valgrind-3.25.0/coregrind/m_debuginfo/readdwarf.c	2025-04-25 19:51:51.723734094 +0200
+@@ -2091,7 +2091,7 @@ void ML_(read_debuginfo_dwarf1) (
+ #elif defined(VGP_riscv64_linux)
+ # define N_CFI_REGS 128
  #else
 -# define N_CFI_REGS 20
 +# define N_CFI_REGS 33
  #endif
  
  /* Instructions for the automaton */
--- 
-GitLab
-
