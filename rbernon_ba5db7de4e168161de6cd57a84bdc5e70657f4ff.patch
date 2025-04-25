@@ -94,9 +94,9 @@ diff --git a/coregrind/m_debuginfo/priv_readelf.h b/coregrind/m_debuginfo/priv_r
 index 7e0fa17c9d..be7792055e 100644
 --- a/coregrind/m_debuginfo/priv_readelf.h
 +++ b/coregrind/m_debuginfo/priv_readelf.h
-@@ -64,6 +64,29 @@ extern Bool ML_(read_elf_debug) ( DebugInfo* di );
- 
- extern Bool ML_(check_elf_and_get_rw_loads) ( Int fd, const HChar* filename, Int * rw_load_count );
+@@ -65,6 +65,29 @@
+ extern Bool ML_(check_elf_and_get_rw_loads) ( Int fd, const HChar* filename,
+                                             Int * rw_load_count, Bool from_nsegments );
  
 +/* Try and open a separate debug file, ignoring any where the CRC does
 +   not match the value from the main object file.  Returned DiImage
