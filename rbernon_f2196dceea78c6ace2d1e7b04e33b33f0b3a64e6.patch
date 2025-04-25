@@ -1,0 +1,82 @@
+From f2196dceea78c6ace2d1e7b04e33b33f0b3a64e6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?R=C3=A9mi=20Bernon?= <rbernon@codeweavers.com>
+Date: Mon, 14 Apr 2025 15:18:55 +0200
+Subject: [PATCH] Add support for ntsync ioctl fd allocation.
+
+---
+ coregrind/m_syswrap/syswrap-linux.c | 28 ++++++++++++++++++++++++++++
+ include/vki/vki-linux.h             | 19 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+
+diff --git a/coregrind/m_syswrap/syswrap-linux.c b/coregrind/m_syswrap/syswrap-linux.c
+index d571fc327f..d85ba1054e 100644
+--- a/coregrind/m_syswrap/syswrap-linux.c
++++ b/coregrind/m_syswrap/syswrap-linux.c
+@@ -12392,6 +12392,34 @@ POST(sys_ioctl)
+    case VKI_PTP_PIN_SETFUNC:
+       break;
+ 
++   case VKI_NTSYNC_CREATE_SEM:
++      if (!ML_(fd_allowed)(RES, "ntsync_create_sem", tid, True)) {
++         VG_(close)(RES);
++         SET_STATUS_Failure( VKI_EMFILE );
++      } else {
++         if (VG_(clo_track_fds))
++            ML_(record_fd_open_nameless) (tid, RES);
++      }
++      break;
++   case VKI_NTSYNC_CREATE_MUTEX:
++      if (!ML_(fd_allowed)(RES, "ntsync_create_mutex", tid, True)) {
++         VG_(close)(RES);
++         SET_STATUS_Failure( VKI_EMFILE );
++      } else {
++         if (VG_(clo_track_fds))
++            ML_(record_fd_open_nameless) (tid, RES);
++      }
++      break;
++   case VKI_NTSYNC_CREATE_EVENT:
++      if (!ML_(fd_allowed)(RES, "ntsync_create_event", tid, True)) {
++         VG_(close)(RES);
++         SET_STATUS_Failure( VKI_EMFILE );
++      } else {
++         if (VG_(clo_track_fds))
++            ML_(record_fd_open_nameless) (tid, RES);
++      }
++      break;
++
+    default:
+       /* EVIOC* are variable length and return size written on success */
+       switch (ARG2 & ~(_VKI_IOC_SIZEMASK << _VKI_IOC_SIZESHIFT)) {
+diff --git a/include/vki/vki-linux.h b/include/vki/vki-linux.h
+index be3d76690c..524ca16534 100644
+--- a/include/vki/vki-linux.h
++++ b/include/vki/vki-linux.h
+@@ -5471,6 +5471,25 @@
+ #define VKI_CLOSE_RANGE_UNSHARE (1U << 1)
+ #define VKI_CLOSE_RANGE_CLOEXEC (1U << 2)
+ 
++struct vki_ntsync_sem_args {
++    vki_uint32_t vki_count;
++    vki_uint32_t vki_max;
++};
++
++struct vki_ntsync_mutex_args {
++    vki_uint32_t vki_owner;
++    vki_uint32_t vki_count;
++};
++
++struct vki_ntsync_event_args {
++    vki_uint32_t vki_manual;
++    vki_uint32_t vki_signaled;
++};
++
++#define VKI_NTSYNC_CREATE_SEM     _VKI_IOR('N', 0x80, struct vki_ntsync_sem_args)
++#define VKI_NTSYNC_CREATE_MUTEX   _VKI_IOW('N', 0x84, struct vki_ntsync_mutex_args)
++#define VKI_NTSYNC_CREATE_EVENT   _VKI_IOW('N', 0x87, struct vki_ntsync_event_args)
++
+ //----------------------------------------------------------------------
+ // From linux/magic.h
+ //----------------------------------------------------------------------
+-- 
+GitLab
+

@@ -100,6 +100,7 @@ Patch12:	rbernon_0d262bd37e7ef9472c6b0f49c137dad5f80dae56.patch
 Patch13:	rbernon_ba5db7de4e168161de6cd57a84bdc5e70657f4ff.patch
 Patch14:	rbernon_73622f132d52db028bb65b08f43e1b88952199ab.patch
 Patch15:	rbernon_75799f756b1002e52d2f50f1ac7806ef1cc6e4bc.patch
+Patch16:	rbernon_f2196dceea78c6ace2d1e7b04e33b33f0b3a64e6.patch
 
 BuildRequires:	binutils
 %ifarch %{aarch64}
