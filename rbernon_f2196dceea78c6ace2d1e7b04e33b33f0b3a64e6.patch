@@ -1,18 +1,7 @@
-From f2196dceea78c6ace2d1e7b04e33b33f0b3a64e6 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?R=C3=A9mi=20Bernon?= <rbernon@codeweavers.com>
-Date: Mon, 14 Apr 2025 15:18:55 +0200
-Subject: [PATCH] Add support for ntsync ioctl fd allocation.
-
----
- coregrind/m_syswrap/syswrap-linux.c | 28 ++++++++++++++++++++++++++++
- include/vki/vki-linux.h             | 19 +++++++++++++++++++
- 2 files changed, 47 insertions(+)
-
-diff --git a/coregrind/m_syswrap/syswrap-linux.c b/coregrind/m_syswrap/syswrap-linux.c
-index d571fc327f..d85ba1054e 100644
---- a/coregrind/m_syswrap/syswrap-linux.c
-+++ b/coregrind/m_syswrap/syswrap-linux.c
-@@ -12392,6 +12392,34 @@ POST(sys_ioctl)
+diff -up valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c.9~ valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c
+--- valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c.9~	2025-10-24 20:43:21.000000000 +0200
++++ valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c	2025-10-26 21:14:46.183515255 +0100
+@@ -12985,6 +12985,34 @@ POST(sys_ioctl)
     case VKI_PTP_PIN_SETFUNC:
        break;
  
@@ -47,11 +36,10 @@ index d571fc327f..d85ba1054e 100644
     default:
        /* EVIOC* are variable length and return size written on success */
        switch (ARG2 & ~(_VKI_IOC_SIZEMASK << _VKI_IOC_SIZESHIFT)) {
-diff --git a/include/vki/vki-linux.h b/include/vki/vki-linux.h
-index be3d76690c..524ca16534 100644
---- a/include/vki/vki-linux.h
-+++ b/include/vki/vki-linux.h
-@@ -5471,6 +5471,25 @@
+diff -up valgrind-3.26.0/include/vki/vki-linux.h.9~ valgrind-3.26.0/include/vki/vki-linux.h
+--- valgrind-3.26.0/include/vki/vki-linux.h.9~	2025-10-24 20:43:21.000000000 +0200
++++ valgrind-3.26.0/include/vki/vki-linux.h	2025-10-26 21:34:01.547879358 +0100
+@@ -5513,6 +5513,25 @@ struct vki_open_how {
  #define VKI_CLOSE_RANGE_UNSHARE (1U << 1)
  #define VKI_CLOSE_RANGE_CLOEXEC (1U << 2)
  
@@ -74,9 +62,6 @@ index be3d76690c..524ca16534 100644
 +#define VKI_NTSYNC_CREATE_MUTEX   _VKI_IOW('N', 0x84, struct vki_ntsync_mutex_args)
 +#define VKI_NTSYNC_CREATE_EVENT   _VKI_IOW('N', 0x87, struct vki_ntsync_event_args)
 +
- //----------------------------------------------------------------------
- // From linux/magic.h
- //----------------------------------------------------------------------
--- 
-GitLab
-
+ struct vki_cachestat_range {
+     __vki_u64 off;
+     __vki_u64 len;
