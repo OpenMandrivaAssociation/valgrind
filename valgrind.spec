@@ -102,6 +102,11 @@ Patch14:	rbernon_73622f132d52db028bb65b08f43e1b88952199ab.patch
 Patch15:	rbernon_75799f756b1002e52d2f50f1ac7806ef1cc6e4bc.patch
 Patch16:	rbernon_f2196dceea78c6ace2d1e7b04e33b33f0b3a64e6.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	binutils
 %ifarch %{aarch64}
 BuildRequires:	gcc-c++
