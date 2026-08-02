@@ -67,7 +67,7 @@
 
 Summary:	Tools for runtime analysis and debugging of software
 Name:		valgrind
-Version:	3.26.0
+Version:	3.27.1
 Release:	1
 License:	GPLv2+
 Group:		Development/Tools

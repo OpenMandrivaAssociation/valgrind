@@ -10,7 +10,7 @@ Instead of unsigned long which may be 64bit.
  1 file changed, 382 insertions(+), 205 deletions(-)
 
 diff --git a/coregrind/m_debuginfo/readpdb.c b/coregrind/m_debuginfo/readpdb.c
-index 414c185cc..d33187205 100644
+index 9e29fef..2b3cc9c 100644
 --- a/coregrind/m_debuginfo/readpdb.c
 +++ b/coregrind/m_debuginfo/readpdb.c
 @@ -91,6 +91,7 @@
@@ -788,7 +788,7 @@ index 414c185cc..d33187205 100644
        /* Old version of the symbols record header */
        PDB_SYMBOLS_OLD *old     = (PDB_SYMBOLS_OLD *)image;
        symbols->version         = 0;
-@@ -2110,7 +2287,7 @@ static void pdb_dump( const struct pdb_reader* pdb,
+@@ -2105,7 +2282,7 @@ static void pdb_dump( const struct pdb_reader* pdb,
        default:
           if (VG_(clo_verbosity) > 1)
              VG_(umsg)("LOAD_PDB_DEBUGINFO: "
@@ -797,7 +797,7 @@ index 414c185cc..d33187205 100644
     }
  
     header_size = 0;
-@@ -2124,7 +2301,7 @@ static void pdb_dump( const struct pdb_reader* pdb,
+@@ -2119,7 +2296,7 @@ static void pdb_dump( const struct pdb_reader* pdb,
        default:
           if (VG_(clo_verbosity) > 1)
              VG_(umsg)("LOAD_PDB_DEBUGINFO: "
@@ -806,7 +806,7 @@ index 414c185cc..d33187205 100644
                        symbols.version );
     }
  
-@@ -2181,7 +2358,7 @@ static void pdb_dump( const struct pdb_reader* pdb,
+@@ -2176,7 +2353,7 @@ static void pdb_dump( const struct pdb_reader* pdb,
                                          file_name );
              n_syms_read 
                 += DEBUG_SnarfCodeView( di, pe_avma, sectp_avma, modimage,
@@ -815,7 +815,7 @@ index 414c185cc..d33187205 100644
                                             symbol_size );
           }
  
-@@ -2319,7 +2496,7 @@ Bool ML_(read_pdb_debug_info)(
+@@ -2314,7 +2491,7 @@ Bool ML_(read_pdb_debug_info)(
           VG_(memcpy)(name, pe_sechdr_avma->Name, 8);
           name[8] = '\0';
           VG_(umsg)("LOAD_PDB_DEBUGINFO:"
@@ -824,6 +824,3 @@ index 414c185cc..d33187205 100644
                     name, obj_avma + pe_sechdr_avma->VirtualAddress,
                     pe_sechdr_avma->VirtualAddress);
        }
--- 
-GitLab
-

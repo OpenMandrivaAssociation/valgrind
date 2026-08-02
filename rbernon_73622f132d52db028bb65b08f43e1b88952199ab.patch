@@ -9,10 +9,10 @@ Subject: [PATCH] Make LOAD_PDB_DEBUGINFO messages less verbose.
  2 files changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/coregrind/m_debuginfo/debuginfo.c b/coregrind/m_debuginfo/debuginfo.c
-index 406b09abd..f6edc5b81 100644
+index 803691a..5909b0e 100644
 --- a/coregrind/m_debuginfo/debuginfo.c
 +++ b/coregrind/m_debuginfo/debuginfo.c
-@@ -1679,7 +1679,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
+@@ -1671,7 +1671,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
     SizeT  n_pdbimage;
     struct vg_stat stat_buf;
  
@@ -21,7 +21,7 @@ index 406b09abd..f6edc5b81 100644
        VG_(message)(Vg_UserMsg, "\n");
        VG_(message)(Vg_UserMsg,
           "LOAD_PDB_DEBUGINFO: clreq:   fd=%d, avma=%#lx, total_size=%lu, "
-@@ -1704,7 +1704,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
+@@ -1696,7 +1696,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
     HChar exename[sz_exename + 1];
     VG_(strcpy)(exename, exe);  // make a copy on the stack 
  
@@ -30,7 +30,7 @@ index 406b09abd..f6edc5b81 100644
        VG_(message)(Vg_UserMsg, "LOAD_PDB_DEBUGINFO: objname: %s\n", exename);
     }
  
-@@ -1838,7 +1838,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
+@@ -1830,7 +1830,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
        } else {
           VG_(message)(Vg_UserMsg, "Warning: Missing or un-stat-able %s\n",
                        pdbname);
@@ -39,7 +39,7 @@ index 406b09abd..f6edc5b81 100644
              VG_(message)(Vg_UserMsg, "LOAD_PDB_DEBUGINFO: missing: %s\n", pdbname);
  
           /* We cannot make any sense of this pdb, so (force) discard it,
-@@ -1908,7 +1908,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
+@@ -1900,7 +1900,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
        goto out;
     }
  
@@ -48,7 +48,7 @@ index 406b09abd..f6edc5b81 100644
        VG_(message)(Vg_UserMsg, "LOAD_PDB_DEBUGINFO: pdbname: %s\n", pdbname);
  
     /* play safe; always invalidate the debug info caches.  I don't know if
-@@ -1929,7 +1929,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
+@@ -1921,7 +1921,7 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
       if (ML_(read_pdb_debug_info)( di, avma_obj, bias_obj,
                                     pdbimage, n_pdbimage, pdbname, pdb_mtime )) {
          vg_assert(di->have_dinfo); // fails if PDB read failed
@@ -58,10 +58,10 @@ index 406b09abd..f6edc5b81 100644
                          "%lu syms, %lu src locs, %lu fpo recs\n",
                          di->symtab_used, di->loctab_used, di->fpo_size);
 diff --git a/coregrind/m_debuginfo/readpdb.c b/coregrind/m_debuginfo/readpdb.c
-index 7da1d3915..2b0bc8723 100644
+index f691b7a..e440d82 100644
 --- a/coregrind/m_debuginfo/readpdb.c
 +++ b/coregrind/m_debuginfo/readpdb.c
-@@ -2736,7 +2736,8 @@ HChar* ML_(find_name_of_pdb_file)( const HChar* pename )
+@@ -2731,7 +2731,8 @@ HChar* ML_(find_name_of_pdb_file)( const HChar* pename )
  
     Int szB = (Int)stat_buf.size;
     if (szB == 0) {
@@ -71,6 +71,3 @@ index 7da1d3915..2b0bc8723 100644
        goto out;
     }
     /* 6 == strlen("X.pdb\n") */
--- 
-GitLab
-

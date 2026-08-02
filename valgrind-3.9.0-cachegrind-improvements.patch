@@ -1,6 +1,8 @@
---- valgrind-3.8.1/cachegrind/cg_sim.c.jj	2011-10-26 23:24:32.000000000 +0200
-+++ valgrind-3.8.1/cachegrind/cg_sim.c	2011-12-09 17:31:19.256023683 +0100
-@@ -42,27 +42,30 @@ typedef struct {
+diff --git a/cachegrind/cg_sim.c b/cachegrind/cg_sim.c
+index 8383e29..7fd2e56 100644
+--- a/cachegrind/cg_sim.c
++++ b/cachegrind/cg_sim.c
+@@ -40,27 +40,30 @@ typedef struct {
     Int          size;                   /* bytes */
     Int          assoc;
     Int          line_size;              /* bytes */
@@ -38,7 +40,7 @@
  
     if (c->assoc == 1) {
        VG_(sprintf)(c->desc_line, "%d B, %d B, direct-mapped", 
-@@ -72,11 +75,8 @@ static void cachesim_initcache(cache_t c
+@@ -70,11 +73,8 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
                                   c->size, c->line_size, c->assoc);
     }
  

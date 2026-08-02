@@ -1,9 +1,10 @@
-diff -up valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c.9~ valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c
---- valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c.9~	2025-10-24 20:43:21.000000000 +0200
-+++ valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c	2025-10-26 21:14:46.183515255 +0100
-@@ -12985,6 +12985,34 @@ POST(sys_ioctl)
-    case VKI_PTP_PIN_SETFUNC:
+diff --git a/coregrind/m_syswrap/syswrap-linux.c b/coregrind/m_syswrap/syswrap-linux.c
+index a1097c3..e90e30b 100644
+--- a/coregrind/m_syswrap/syswrap-linux.c
++++ b/coregrind/m_syswrap/syswrap-linux.c
+@@ -13227,6 +13227,34 @@ POST(sys_ioctl)
        break;
+    }
  
 +   case VKI_NTSYNC_CREATE_SEM:
 +      if (!ML_(fd_allowed)(RES, "ntsync_create_sem", tid, True)) {
@@ -36,10 +37,11 @@ diff -up valgrind-3.26.0/coregrind/m_syswrap/syswrap-linux.c.9~ valgrind-3.26.0/
     default:
        /* EVIOC* are variable length and return size written on success */
        switch (ARG2 & ~(_VKI_IOC_SIZEMASK << _VKI_IOC_SIZESHIFT)) {
-diff -up valgrind-3.26.0/include/vki/vki-linux.h.9~ valgrind-3.26.0/include/vki/vki-linux.h
---- valgrind-3.26.0/include/vki/vki-linux.h.9~	2025-10-24 20:43:21.000000000 +0200
-+++ valgrind-3.26.0/include/vki/vki-linux.h	2025-10-26 21:34:01.547879358 +0100
-@@ -5513,6 +5513,25 @@ struct vki_open_how {
+diff --git a/include/vki/vki-linux.h b/include/vki/vki-linux.h
+index 00e228a..ec0bd9c 100644
+--- a/include/vki/vki-linux.h
++++ b/include/vki/vki-linux.h
+@@ -5544,6 +5544,25 @@ struct vki_open_how {
  #define VKI_CLOSE_RANGE_UNSHARE (1U << 1)
  #define VKI_CLOSE_RANGE_CLOEXEC (1U << 2)
  

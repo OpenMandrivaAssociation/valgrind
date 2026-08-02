@@ -8,10 +8,10 @@ Subject: [PATCH] Support custom SP CFA instruction on x86.
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/coregrind/m_debuginfo/readdwarf.c b/coregrind/m_debuginfo/readdwarf.c
-index 102f41601..5c82a6d96 100644
+index eb88ef0..d21dc88 100644
 --- a/coregrind/m_debuginfo/readdwarf.c
 +++ b/coregrind/m_debuginfo/readdwarf.c
-@@ -2527,11 +2527,16 @@ static Bool summarise_context(/*OUT*/Addr* base,
+@@ -2540,11 +2540,16 @@ static Bool summarise_context(/*OUT*/Addr* base,
                                 ctxs->reg[ctx->ra_reg] );
     SUMMARISE_HOW(si_m->bp_how, si_m->bp_off,
                                 ctxs->reg[FP_REG] );
@@ -30,6 +30,3 @@ index 102f41601..5c82a6d96 100644
  
     /* also, gcc says "Undef" for %{e,r}bp when it is unchanged.  So
        .. */
--- 
-GitLab
-

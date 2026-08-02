@@ -17,10 +17,10 @@ simplicity. Most of the code here was adapted from read_elf_debug_info.
  5 files changed, 1173 insertions(+), 25 deletions(-)
 
 diff --git a/coregrind/m_debuginfo/debuginfo.c b/coregrind/m_debuginfo/debuginfo.c
-index eed134be85..406b09abdc 100644
+index 6f3c281..803691a 100644
 --- a/coregrind/m_debuginfo/debuginfo.c
 +++ b/coregrind/m_debuginfo/debuginfo.c
-@@ -1792,10 +1792,65 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
+@@ -1784,10 +1784,65 @@ void VG_(di_notify_pdb_debuginfo)( Int fd_obj, Addr avma_obj,
     /* See if we can find it, and check it's in-dateness. */
     sres = VG_(stat)(pdbname, &stat_buf);
     if (sr_isError(sres)) {
@@ -91,10 +91,10 @@ index eed134be85..406b09abdc 100644
     }
     pdb_mtime = stat_buf.mtime;
 diff --git a/coregrind/m_debuginfo/priv_readelf.h b/coregrind/m_debuginfo/priv_readelf.h
-index 7e0fa17c9d..be7792055e 100644
+index 88c9cc9..f12c2d1 100644
 --- a/coregrind/m_debuginfo/priv_readelf.h
 +++ b/coregrind/m_debuginfo/priv_readelf.h
-@@ -65,6 +65,29 @@
+@@ -65,6 +65,29 @@ extern Bool ML_(read_elf_debug) ( DebugInfo* di );
  extern Bool ML_(check_elf_and_get_rw_loads) ( Int fd, const HChar* filename,
                                              Int * rw_load_count, Bool from_nsegments );
  
@@ -125,7 +125,7 @@ index 7e0fa17c9d..be7792055e 100644
  #endif /* ndef __PRIV_READELF_H */
  
 diff --git a/coregrind/m_debuginfo/priv_readpdb.h b/coregrind/m_debuginfo/priv_readpdb.h
-index b9b8fb3a2c..1d6c691622 100644
+index 49f2429..56d59bb 100644
 --- a/coregrind/m_debuginfo/priv_readpdb.h
 +++ b/coregrind/m_debuginfo/priv_readpdb.h
 @@ -54,6 +54,14 @@ extern Bool ML_(read_pdb_debug_info)(
@@ -144,10 +144,10 @@ index b9b8fb3a2c..1d6c691622 100644
  #endif /* ndef __PRIV_READPDB_H */
  
 diff --git a/coregrind/m_debuginfo/readelf.c b/coregrind/m_debuginfo/readelf.c
-index fb64ed9769..7d6bb7baa5 100644
+index 52965a1..5bfef56 100644
 --- a/coregrind/m_debuginfo/readelf.c
 +++ b/coregrind/m_debuginfo/readelf.c
-@@ -1313,9 +1313,9 @@ HChar* find_buildid(DiImage* img, Bool rel_ok, Bool search_shdrs)
+@@ -1316,9 +1316,9 @@ HChar* find_buildid(DiImage* img, Bool rel_ok, Bool search_shdrs)
     spec of the form "d.d.d.d:d" or "d.d.d.d", and |name| is expected
     to be a plain filename (no path components at all).
   */
@@ -160,7 +160,7 @@ index fb64ed9769..7d6bb7baa5 100644
  {
     DiImage* dimg 
       = serverAddr ? ML_(img_from_di_server)(name, serverAddr)
-@@ -1465,7 +1465,7 @@ DiImage* find_debug_file_debuginfod( const HChar* objpath,
+@@ -1468,7 +1468,7 @@ DiImage* find_debug_file_debuginfod( const HChar* objpath,
  
        /* Remove newline from filename before trying to open debug file */
        buf[len-1] = '\0';
@@ -169,7 +169,7 @@ index fb64ed9769..7d6bb7baa5 100644
        if (dimg != NULL) {
           /* Success */
           if (*debugpath)
-@@ -1504,10 +1504,11 @@ out:
+@@ -1507,10 +1507,11 @@ out:
     debug object, then we look in various places to find a file with
     the specified CRC.  And if that doesn't work out then we give
     up. */
@@ -185,7 +185,7 @@ index fb64ed9769..7d6bb7baa5 100644
  {
     const HChar* extrapath  = VG_(clo_extra_debuginfo_path);
     const HChar* serverpath = VG_(clo_debuginfo_server);
-@@ -1522,7 +1523,7 @@ DiImage* find_debug_file( struct _DebugInfo* di,
+@@ -1525,7 +1526,7 @@ DiImage* find_debug_file( struct _DebugInfo* di,
        VG_(sprintf)(debugpath, "/usr/lib/debug/.build-id/%c%c/%s.debug",
                     buildid[0], buildid[1], buildid + 2);
  
@@ -194,7 +194,7 @@ index fb64ed9769..7d6bb7baa5 100644
        if (!dimg) {
           ML_(dinfo_free)(debugpath);
           debugpath = NULL;
-@@ -1551,7 +1552,8 @@ DiImage* find_debug_file( struct _DebugInfo* di,
+@@ -1554,7 +1555,8 @@ DiImage* find_debug_file( struct _DebugInfo* di,
  #     define TRY_OBJDIR(format, ...)                                    \
        do {                                                              \
           VG_(sprintf)(debugpath, format, __VA_ARGS__);                  \
@@ -204,7 +204,7 @@ index fb64ed9769..7d6bb7baa5 100644
           if (dimg != NULL) goto dimg_ok;                                \
        } while (0);
  
-@@ -1587,7 +1589,8 @@ DiImage* find_debug_file( struct _DebugInfo* di,
+@@ -1590,7 +1592,8 @@ DiImage* find_debug_file( struct _DebugInfo* di,
              basename = VG_(strrchr)(basename, '/') + 1;
           }
           VG_(sprintf)(debugpath, "%s on %s", basename, serverpath);
@@ -214,7 +214,7 @@ index fb64ed9769..7d6bb7baa5 100644
           if (dimg) goto dimg_ok;
        }
  
-@@ -1621,9 +1624,8 @@ DiImage* find_debug_file( struct _DebugInfo* di,
+@@ -1624,9 +1627,8 @@ DiImage* find_debug_file( struct _DebugInfo* di,
  /* Try to find a separate debug file for a given object file, in a
     hacky and dangerous way: check only the --extra-debuginfo-path and
     the --debuginfo-server.  And don't do a consistency check. */
@@ -226,7 +226,7 @@ index fb64ed9769..7d6bb7baa5 100644
  {
     const HChar* extrapath  = VG_(clo_extra_debuginfo_path);
     const HChar* serverpath = VG_(clo_debuginfo_server);
-@@ -3218,14 +3220,14 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
+@@ -3277,14 +3279,14 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
              HChar* debuglink_str_m
                 = ML_(img_strdup)(debuglink_escn.img,
                                   "di.redi_dlk.1", debuglink_escn.ioff);
@@ -245,7 +245,7 @@ index fb64ed9769..7d6bb7baa5 100644
           }
        }
  
-@@ -3248,7 +3250,7 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
+@@ -3307,7 +3309,7 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
           section here, and just looking for a file of the same name
           either the extra-path or on the server. */
        if (dimg == NULL && VG_(clo_allow_mismatched_debuginfo)) {
@@ -254,7 +254,7 @@ index fb64ed9769..7d6bb7baa5 100644
        }
  
        /* TOPLEVEL */
-@@ -3539,8 +3541,8 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
+@@ -3602,8 +3604,8 @@ Bool ML_(read_elf_debug) ( struct _DebugInfo* di )
                                          + buildid_offset + j));
  
           /* See if we can find a matching debug file */
@@ -266,7 +266,7 @@ index fb64ed9769..7d6bb7baa5 100644
           ML_(dinfo_free)(rdbgname);
  
 diff --git a/coregrind/m_debuginfo/readpdb.c b/coregrind/m_debuginfo/readpdb.c
-index d331872057..7da1d3915b 100644
+index 2b3cc9c..f691b7a 100644
 --- a/coregrind/m_debuginfo/readpdb.c
 +++ b/coregrind/m_debuginfo/readpdb.c
 @@ -44,6 +44,7 @@
@@ -287,7 +287,7 @@ index d331872057..7da1d3915b 100644
  
  
  /*------------------------------------------------------------*/
-@@ -2781,6 +2785,1062 @@ HChar* ML_(find_name_of_pdb_file)( const HChar* pename )
+@@ -2776,6 +2780,1062 @@ HChar* ML_(find_name_of_pdb_file)( const HChar* pename )
     return res;
  }
  
@@ -1350,6 +1350,3 @@ index d331872057..7da1d3915b 100644
  #endif // defined(VGO_linux) || defined(VGO_darwin) || defined(VGO_solaris) || defined(VGO_freebsd)
  
  /*--------------------------------------------------------------------*/
--- 
-GitLab
-

@@ -8,7 +8,7 @@ Subject: [PATCH] Better support stack switch tracking for Wine.
  1 file changed, 38 insertions(+), 9 deletions(-)
 
 diff --git a/coregrind/m_stacks.c b/coregrind/m_stacks.c
-index 90101496d4..a91a85217b 100644
+index 821ef3e..46255ae 100644
 --- a/coregrind/m_stacks.c
 +++ b/coregrind/m_stacks.c
 @@ -95,6 +95,7 @@ typedef struct _Stack {
@@ -96,6 +96,3 @@ index 90101496d4..a91a85217b 100644
     IF_STACK_SWITCH_SET_current_stack_AND_RETURN;
     IF_BIG_DELTA_complaints_AND_RETURN;
     IF_SMALLER_STACK_die_mem_stack_AND_RETURN;
--- 
-GitLab
-
